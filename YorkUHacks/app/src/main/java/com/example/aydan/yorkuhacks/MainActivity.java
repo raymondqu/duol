@@ -47,6 +47,16 @@ public class MainActivity extends Activity{
             };
     private static final int REQUEST_CODE_REQUIRED_PERMISSIONS = 1;
 
+    private ConnectionsClient connectionsClient;
+    private String opponentEndpointId;
+    private String opponentName;
+    private int opponentScore;
+    private enum GameChoice {
+        1,2,3,4;
+
+    private int myScore;
+
+
     public Boolean sensorToggled = false;
 
     @Override
