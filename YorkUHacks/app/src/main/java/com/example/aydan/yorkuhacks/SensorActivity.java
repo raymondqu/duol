@@ -82,5 +82,5 @@ public class SensorActivity extends Activity implements SensorEventListener{
         super.onPause();
         SM.unregisterListener(this);
     }
-
+    //commited at 5:16 by Aydan
 }
