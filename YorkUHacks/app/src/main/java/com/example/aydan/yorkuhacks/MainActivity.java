@@ -27,7 +27,7 @@ public class MainActivity extends Activity implements SensorEventListener{
         SM = (SensorManager)getSystemService(SENSOR_SERVICE);
 
         // Accelerometer Sensor
-        mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mySensor = SM.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 
         // Register sensor Listener
         SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
@@ -42,7 +42,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        Log.d("MainActivity", Float.toString(event.values[0]) + Float.toString(event.values[1]) + Float.toString(event.values[2]));
+        Log.d("MainActivity", "x: " + Float.toString(event.values[0]) +"y: " + Float.toString(event.values[1]) + "z: " + Float.toString(event.values[2]));
 
     }
     //daberino
