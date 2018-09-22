@@ -6,8 +6,12 @@ import android.view.MotionEvent;
 import android.content.Intent;
 import android.util.Log;
 
+
 import android.Manifest;
 /*
+IMPORT FOR WIFI BULLSHIT
+import android.widget.Toast;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -38,6 +42,12 @@ import com.google.android.gms.nearby.connection.Strategy;
 */
 
 public class MainActivity extends Activity{
+    public int result = 0;
+    /*
+    wifi bullshit starts here
+
+     */
+    private final String codeName = "testuser";
     private static final String[] REQUIRED_PERMISSIONS =
             new String[] {
                     Manifest.permission.BLUETOOTH,
@@ -49,14 +59,206 @@ public class MainActivity extends Activity{
     private static final int REQUEST_CODE_REQUIRED_PERMISSIONS = 1;
 
     private ConnectionsClient connectionsClient;
+    private int myScore;
     private String opponentEndpointId;
     private String opponentName;
     private int opponentScore;
     private int atkChoice;
     private int defChoice;
+    private TextView opponentText;
+    private TextView statusText;
+    private TextView scoreText;
+    private Button findOpponentButton;
+    private Button disconnectButton;
+    private final PayloadCallback payloadCallback =
+            new PayloadCallback() {
+                @Override
+                public void onPayloadReceived(String endpointId, Payload payload) {
+                    defChoice = new int(payload.asBytes(), UTF_8);
+                }
 
-    private int myScore;
+                @Override
+                public void onPayloadTransferUpdate(String endpointId, PayloadTransferUpdate update) {
+                    if (update.getStatus() == Status.SUCCESS && atkChoice != null && defChoice != null) {
+                        finishRound();
+                    }
+                }
+            };
+    private final EndpointDiscoveryCallback endpointDiscoveryCallback =
+            new EndpointDiscoveryCallback() {
+                @Override
+                public void onEndpointFound(String endpointId, DiscoveredEndpointInfo info) {
+                    Log.i(TAG, "onEndpointFound: endpoint found, connecting");
+                    connectionsClient.requestConnection(codeName, endpointId, connectionLifecycleCallback);
+                }
 
+                @Override
+                public void onEndpointLost(String endpointId) {}
+            };
+
+    private final ConnectionLifecycleCallback connectionLifecycleCallback =
+            new ConnectionLifecycleCallback() {
+                @Override
+                public void onConnectionInitiated(String endpointId, ConnectionInfo connectionInfo) {
+                    Log.i(TAG, "onConnectionInitiated: accepting connection");
+                    connectionsClient.acceptConnection(endpointId, payloadCallback);
+                    opponentName = connectionInfo.getEndpointName();
+                }
+
+                @Override
+                public void onConnectionResult(String endpointId, ConnectionResolution result) {
+                    if (result.getStatus().isSuccess()) {
+                        Log.i(TAG, "onConnectionResult: connection successful");
+
+                        connectionsClient.stopDiscovery();
+                        connectionsClient.stopAdvertising();
+
+                        opponentEndpointId = endpointId;
+                        setOpponentName(opponentName);
+                        setStatusText(getString(R.string.status_connected));
+                        setButtonState(true);
+                    } else {
+                        Log.i(TAG, "onConnectionResult: connection failed");
+                    }
+                }
+
+                @Override
+                public void onDisconnected(String endpointId) {
+                    Log.i(TAG, "onDisconnected: disconnected from the opponent");
+                    resetGame();
+                }
+            };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (!hasPermissions(this, REQUIRED_PERMISSIONS)) {
+            requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_REQUIRED_PERMISSIONS);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        connectionsClient.stopAllEndpoints();
+        resetGame();
+
+        super.onStop();
+    }
+
+    private static boolean hasPermissions(Context context, String... permissions) {
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(context, permission)
+                    != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @CallSuper
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode != REQUEST_CODE_REQUIRED_PERMISSIONS) {
+            return;
+        }
+
+        for (int grantResult : grantResults) {
+            if (grantResult == PackageManager.PERMISSION_DENIED) {
+                Toast.makeText(this, R.string.error_missing_permissions, Toast.LENGTH_LONG).show();
+                finish();
+                return;
+            }
+        }
+        recreate();
+    }
+
+    /** Finds an opponent to play the game with using Nearby Connections. */
+    public void findOpponent(View view) {
+        startAdvertising();
+        startDiscovery();
+        setStatusText(getString(R.string.status_searching));
+        findOpponentButton.setEnabled(false);
+    }
+
+    /** Disconnects from the opponent and reset the UI. */
+    public void disconnect(View view) {
+        connectionsClient.disconnectFromEndpoint(opponentEndpointId);
+        resetGame();
+    }
+
+    public void makeMove() {
+        sendGameChoice(result);
+
+
+    }
+
+    /** Starts looking for other players using Nearby Connections. */
+    private void startDiscovery() {
+        // Note: Discovery may fail. To keep this demo simple, we don't handle failures.
+        connectionsClient.startDiscovery(
+                getPackageName(), endpointDiscoveryCallback, new DiscoveryOptions(STRATEGY));
+    }
+
+    private void startAdvertising() {
+        // Note: Advertising may fail. To keep this demo simple, we don't handle failures.
+        connectionsClient.startAdvertising(
+                codeName, getPackageName(), connectionLifecycleCallback, new AdvertisingOptions(STRATEGY));
+    }
+    private void resetGame() {
+        opponentEndpointId = null;
+        opponentName = null;
+        defChoice = null;
+        opponentScore = 0;
+        atkChoice = null;
+        myScore = 0;
+
+        setOpponentName("no_opponent"));
+        setStatusText("status_disconnected"));
+        updateScore(myScore, opponentScore);
+        setButtonState(false);
+    }
+
+    private void sendGameChoice() {
+
+        connectionsClient.sendPayload(
+                opponentEndpointId, Payload.fromBytes(Integer.toString(result).getBytes(UTF_8)));
+
+        setStatusText("placeholder");
+        // No changing your mind!
+        setGameChoicesEnabled(false);
+    }
+    private void finishRound() {
+        if (atkChoice != defChoice) {
+            // Win!
+            Toast toast = Toast.makeText(getApplicationContext(), "Attacker Wins", Toast.LENGTH_LONG);
+            toast.show();
+            myScore++
+
+
+        } else {
+            Toast toast = Toast.makeText(getApplicationContext(), "Defender wins", Toast.LENGTH_LONG);
+            toast.show();
+            // Loss
+
+            opponentScore++;
+        }
+        atkChoice = null;
+        defChoice = null;
+
+        updateScore(myScore, opponentScore);
+
+        // Ready for another round
+
+    }
+
+/*
+WIFI BULLSHIT ENDS HERE
+
+ */
 
     public Boolean sensorToggled = false;
     public static int TIMING_WINDOW = 2000;
@@ -65,6 +267,22 @@ public class MainActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /*
+        more wifi bullshit
+        opponentText = findViewById(R.id.opponent_name);
+    statusText = findViewById(R.id.status);
+    scoreText = findViewById(R.id.score);
+
+    TextView nameView = findViewById(R.id.name);
+    nameView.setText(getString(R.string.codename, codeName));
+
+    connectionsClient = Nearby.getConnectionsClient(this);
+
+    resetGame();
+
+
+         */
     }
 
     @Override
@@ -87,7 +305,7 @@ public class MainActivity extends Activity{
 
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
-                int result=data.getIntExtra("result", 1);
+                result=data.getIntExtra("result", 0);
 
                 switch(result) {
                     case 1:
@@ -115,7 +333,7 @@ public class MainActivity extends Activity{
         }
     }//onActivityResult
 
-    //commited at 5:38 by Aydan
+    //commited at 7:19 by Aydan
 
 
 
