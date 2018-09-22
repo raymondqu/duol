@@ -12,7 +12,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 //import android.widget.TextView;
 
-public class MainActivity extends Activity implements SensorEventListener{
+public class MainActivity2 extends Activity implements SensorEventListener{
 
 
     private Sensor mySensor;
@@ -46,4 +46,4 @@ public class MainActivity extends Activity implements SensorEventListener{
     }
 
 
-}
+    }
