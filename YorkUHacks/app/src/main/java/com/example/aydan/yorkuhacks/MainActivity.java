@@ -45,6 +45,7 @@ public class MainActivity extends Activity implements SensorEventListener{
         Log.d("MainActivity", Float.toString(event.values[0]) + Float.toString(event.values[1]) + Float.toString(event.values[2]));
 
     }
+    //dab
 
 
 
