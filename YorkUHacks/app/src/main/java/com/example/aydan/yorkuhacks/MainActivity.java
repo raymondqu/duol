@@ -51,8 +51,8 @@ public class MainActivity extends Activity{
     private String opponentEndpointId;
     private String opponentName;
     private int opponentScore;
-    private enum GameChoice {
-        1,2,3,4;
+    private int atkChoice;
+    private int defChoice;
 
     private int myScore;
 
@@ -114,7 +114,7 @@ public class MainActivity extends Activity{
         }
     }//onActivityResult
 
-    //commited at 5:16 by Aydan
+    //commited at 5:38 by Aydan
 
 
 
