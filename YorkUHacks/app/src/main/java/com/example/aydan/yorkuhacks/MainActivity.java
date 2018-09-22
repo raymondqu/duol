@@ -6,15 +6,6 @@ import android.view.MotionEvent;
 import android.content.Intent;
 import android.util.Log;
 
-public class MainActivity extends Activity{
-
-<<<<<<< HEAD
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-
-
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -45,12 +36,7 @@ import com.google.android.gms.nearby.connection.PayloadTransferUpdate.Status;
 import com.google.android.gms.nearby.connection.Strategy;
 
 
-public class MainActivity extends Activity implements SensorEventListener{
-    public int direction = 0;
-
-    private Sensor mySensor;
-    private SensorManager SM;
-
+public class MainActivity extends Activity{
     private static final String[] REQUIRED_PERMISSIONS =
             new String[] {
                     Manifest.permission.BLUETOOTH,
@@ -59,11 +45,9 @@ public class MainActivity extends Activity implements SensorEventListener{
                     Manifest.permission.CHANGE_WIFI_STATE,
                     Manifest.permission.ACCESS_COARSE_LOCATION,
             };
-
     private static final int REQUEST_CODE_REQUIRED_PERMISSIONS = 1;
-=======
+
     public Boolean sensorToggled = false;
->>>>>>> 00109234b414c77557986eaa0d2a9c99d6b6aaad
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,31 +99,6 @@ public class MainActivity extends Activity implements SensorEventListener{
         }
     }//onActivityResult
 
-<<<<<<< HEAD
-
-    }
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        if(event.values[0] < -4)
-        {
-            direction = 1;
-        }
-        if(event.values[2] > 4)
-        {
-            direction = 2;
-        }
-        if(event.values[0] > 4)
-        {
-            direction = 3;
-        }
-        if(event.values[2] < -4)
-        {
-            direction = 4;
-        }
-
-    }
-=======
->>>>>>> 00109234b414c77557986eaa0d2a9c99d6b6aaad
     //commited at 3:46
 
 
