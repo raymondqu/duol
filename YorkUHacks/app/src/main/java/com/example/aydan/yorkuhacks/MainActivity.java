@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import android.Manifest;
+/*
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -34,7 +35,7 @@ import com.google.android.gms.nearby.connection.PayloadCallback;
 import com.google.android.gms.nearby.connection.PayloadTransferUpdate;
 import com.google.android.gms.nearby.connection.PayloadTransferUpdate.Status;
 import com.google.android.gms.nearby.connection.Strategy;
-
+*/
 
 public class MainActivity extends Activity{
     private static final String[] REQUIRED_PERMISSIONS =
@@ -58,7 +59,7 @@ public class MainActivity extends Activity{
 
 
     public Boolean sensorToggled = false;
-    public static int TIMING_WINDOW = 1000;
+    public static int TIMING_WINDOW = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
