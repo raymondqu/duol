@@ -22,7 +22,7 @@ public class SensorActivity extends Activity implements SensorEventListener{
     private int TIMING_WINDOW;
 
     private Timer timer;
-    private Timer timerTask;
+    private TimerTask timerTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +33,15 @@ public class SensorActivity extends Activity implements SensorEventListener{
         TIMING_WINDOW = intent.getIntExtra("TIMING_WINDOW", 1000);
 
         timer = new Timer(true);
+
+        timerTask = new TimerTask(){
+            @Override
+            public void run() {
+                sendDirection(0);
+            }
+        };
+
+        timer.schedule(timerTask, TIMING_WINDOW);
 
         // Create our Sensor Manager
         SM = (SensorManager)getSystemService(SENSOR_SERVICE);
