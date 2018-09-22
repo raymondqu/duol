@@ -4,7 +4,8 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
 
-
+import java.util.Timer;
+import java.util.TimerTask;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.hardware.SensorEvent;
@@ -13,16 +14,25 @@ import android.hardware.SensorEventListener;
 import android.content.Intent;
 
 public class SensorActivity extends Activity implements SensorEventListener{
-    public int direction = 0;
 
     private Sensor mySensor;
     private SensorManager SM;
 
+    private Intent intent;
+    private int TIMING_WINDOW;
+
+    private Timer timer;
+    private Timer timerTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        intent = getIntent();
+        TIMING_WINDOW = intent.getIntExtra("TIMING_WINDOW", 1000);
+
+        timer = new Timer(true);
 
         // Create our Sensor Manager
         SM = (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -33,7 +43,6 @@ public class SensorActivity extends Activity implements SensorEventListener{
         // Register sensor Listener
         super.onResume();
         SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
-
     }
 
     @Override

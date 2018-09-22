@@ -58,6 +58,7 @@ public class MainActivity extends Activity{
 
 
     public Boolean sensorToggled = false;
+    public static int TIMING_WINDOW = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,7 @@ public class MainActivity extends Activity{
         if(!sensorToggled){
             sensorToggled = true;
             Intent i=new Intent(this, SensorActivity.class);
-            i.putExtra("sensorToggled", sensorToggled);
+            i.putExtra("TIMING_WINDOW", TIMING_WINDOW);
             startActivityForResult(i, 1);
         }
 
@@ -85,9 +86,9 @@ public class MainActivity extends Activity{
 
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
-                int direction=data.getIntExtra("result", 1);
+                int result=data.getIntExtra("result", 1);
 
-                switch(direction) {
+                switch(result) {
                     case 1:
                         Log.d("MainActivity", "LEFT");
                         break;
@@ -99,6 +100,10 @@ public class MainActivity extends Activity{
                         break;
                     case 4:
                         Log.d("MainActivity", "DOWN");
+                        break;
+                    case 0:
+                        //fail to swipe in time
+                        Log.d("MainActivity", "MISS!");
                         break;
                 }
                 sensorToggled = false;
