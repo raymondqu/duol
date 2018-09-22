@@ -16,9 +16,10 @@
     <link rel="stylesheet" href="responsive.css">
     <link href="https://fonts.googleapis.com/css?family=Karla" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet">
     <script src="jquery.js"></script>
+    <script src="js/reveal.js"></script>
 </head>
 
 <body>
@@ -28,7 +29,8 @@
     <header>
         <nav>
             <a href="index.html">
-                <div class="logo">sample text</div>
+                <img src="images/logo.png">
+                <div class="logo">sample</div>
             </a>
             <a href="#Download">
                 <img class="download-btn" src="images/download-icon.svg" alt="download icon">
@@ -37,23 +39,49 @@
 
         <div class="headline">
             <h1>a real-time mobile multiplayer for all to enjoy!</h1>
-            <h2>Dueling players can use their mobile devices to trade blows at each other in a fast-paced game that is easy for anyone to pick up!</h2>
-            <div class="button">
+            <h2>Dueling players can use their mobile devices to trade blows at each other in a fast-paced game that
+                is
+                easy for anyone to pick up!</h2>
+            <a class="enter" href="#Download">
+                <div class="button">
                     <span class="button__mask"></span>
                     <span class="button__text">DOWNLOAD</span>
                     <span class="button__text button__text--bis">DOWNLOAD</span>
-                  </div>
-                  <div class="button">
-                        <span class="button__mask"></span>
-                        <span class="button__text">LEARN MORE</span>
-                        <span class="button__text button__text--bis">LEARN MORE</span>
-                      </div>
-        </div>
-
-
-        <img class="phone select-disabled" src="images/phone2.png">
+                </div>
+            </a>
+            <a class="enter" href="#About">
+                <div class="button">
+                    <span class="button__mask"></span>
+                    <span class="button__text">LEARN MORE</span>
+                    <span class="button__text button__text--bis">LEARN MORE</span>
+                </div>
+            </a>
+            <img class="phone select-disabled" src="images/phone2.png">
     </header>
 
+    <section class="about" id="About">
+        <h1>
+            Story
+        </h1>
+        <div class="text-container">
+            <p>
+                Through the ages, dueling was traditionally fought out between foes using swords and rapiers, and we
+                have now brought it into the 21st century with a fun interactive game between two phone users.
+            </p>
+        </div>
+        <div class="text-container">
+            <p>
+                Following prompts on phone and reacting to the actions of your opponent, you take turns taking jabs at
+                each other to try to get them out of the game!
+            </p>
+        </div>
+        <div class="text-container">
+                <p>
+                    ____ aims to reduce screen time and improve social interactions through two player duels
+                </p>
+            </div>
+        <img class="about-image select-disabled" src="images/swords.svg">
+    </section>
     <script src="" async defer></script>
 </body>
 
