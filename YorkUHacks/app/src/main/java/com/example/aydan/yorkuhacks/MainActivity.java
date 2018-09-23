@@ -24,7 +24,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.connection.AdvertisingOptions;
 import com.google.android.gms.nearby.connection.ConnectionInfo;
@@ -356,7 +355,7 @@ WIFI BULLSHIT ENDS HERE
         }
     }//onActivityResult
 
-    //commited at 8:51 by Aydan
+    //commited at 10:14 by Aydan
 
 
 
