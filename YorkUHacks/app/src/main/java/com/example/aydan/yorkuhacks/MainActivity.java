@@ -88,7 +88,6 @@ public class MainActivity extends Activity{
             }
         });
 
-//        createGesture();
     }
 
     //start singleplayer (triggered by button)

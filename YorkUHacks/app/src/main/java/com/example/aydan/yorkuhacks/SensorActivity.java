@@ -21,7 +21,7 @@ public class SensorActivity extends Service implements SensorEventListener{
 
     private Sensor mySensor;
     private SensorManager SM;
-    public Boolean inverted = true;
+    public Boolean inverted = false;
 
     private static int THRESHOLD = 2;
     private static int COOLDOWN = 250;
@@ -97,7 +97,6 @@ public class SensorActivity extends Service implements SensorEventListener{
 
 
     }
-    //commited at 3:46
 
     public void sendDirection(int direction){
         if(sendEnabled){
@@ -137,5 +136,5 @@ public class SensorActivity extends Service implements SensorEventListener{
         SM.unregisterListener(this);
 
     }
-    //commited at 5:16 by Aydan
+    //commited at 11:53
 }

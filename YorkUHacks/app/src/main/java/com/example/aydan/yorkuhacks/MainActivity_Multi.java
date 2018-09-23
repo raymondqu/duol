@@ -45,7 +45,7 @@ import com.google.android.gms.nearby.connection.PayloadTransferUpdate.Status;
 import com.google.android.gms.nearby.connection.Strategy;
 
 
-public class MainActivity_Multi extends Activity {
+public class MainActivity_Multi extends Activity{
     Vibrator v;
 
     public Boolean attacking;
@@ -54,12 +54,10 @@ public class MainActivity_Multi extends Activity {
     public String oppdir;
 
     public static boolean STARTING = true; //default true
-    /*
-    wifi bullshit starts here
-     */
+
     private final String codeName = "testuser";
     private static final String[] REQUIRED_PERMISSIONS =
-            new String[]{
+            new String[] {
                     Manifest.permission.BLUETOOTH,
                     Manifest.permission.BLUETOOTH_ADMIN,
                     Manifest.permission.ACCESS_WIFI_STATE,
@@ -89,17 +87,27 @@ public class MainActivity_Multi extends Activity {
 
     public Boolean inverted = false;
 
+    public Boolean sensorToggled = false;
+
+    public static int TIMING_WINDOW = 3000;
+
+    public Timer timer = new Timer();
+
+    public TimerTask timerTaskEnd;
+
+    public Intent sensorIntent;
+
     private final PayloadCallback payloadCallback =
             new PayloadCallback() {
                 @Override
                 public void onPayloadReceived(String endpointId, Payload payload) {
-                    if (attacking == false) {
+                    if(attacking == false){
                         Log.d("MainActivity_Multi", "got payload");
-                        if (oppdir == null) {
+                        if(oppdir == null){
                             oppdir = new String(payload.asBytes(), UTF_8);
                             createMultiGesture();
                         }
-                    } else {
+                    }else{
                         String result = new String(payload.asBytes(), UTF_8);
                         finishRound(result);
                     }
@@ -123,8 +131,7 @@ public class MainActivity_Multi extends Activity {
                 }
 
                 @Override
-                public void onEndpointLost(String endpointId) {
-                }
+                public void onEndpointLost(String endpointId) {}
             };
 
     private final ConnectionLifecycleCallback connectionLifecycleCallback =
@@ -146,13 +153,13 @@ public class MainActivity_Multi extends Activity {
 
                         inverted = invertSwitch.isChecked();
 
-                        if (startSwitch.isChecked()) {
+                        if(startSwitch.isChecked()){
                             Toast toast = Toast.makeText(getApplicationContext(), "You attack", Toast.LENGTH_LONG);
                             attacking = true;
                             toast.show();
                             defenseStatement = findViewById(R.id.defenseStatement);
                             defenseStatement.setText("You are attacking.");
-                        } else {
+                        }else{
                             Toast toast = Toast.makeText(getApplicationContext(), "You defend", Toast.LENGTH_LONG);
                             attacking = false;
                             defenseStatement = findViewById(R.id.defenseStatement);
@@ -228,9 +235,7 @@ public class MainActivity_Multi extends Activity {
         recreate();
     }
 
-    /**
-     * Finds an opponent to play the game with using Nearby Connections.
-     */
+    /** Finds an opponent to play the game with using Nearby Connections. */
     public void findOpponent(View view) {
         startAdvertising();
         startDiscovery();
@@ -238,18 +243,14 @@ public class MainActivity_Multi extends Activity {
         findOpponentButton.setEnabled(false);
     }
 
-    /**
-     * Disconnects from the opponent and reset the UI.
-     */
+    /** Disconnects from the opponent and reset the UI. */
     public void disconnect(View view) {
         connectionsClient.disconnectFromEndpoint(opponentEndpointId);
         resetGame();
     }
 
 
-    /**
-     * Starts looking for other players using Nearby Connections.
-     */
+    /** Starts looking for other players using Nearby Connections. */
     private void startDiscovery() {
 
         // Note: Discovery may fail. To keep this demo simple, we don't handle failures.
@@ -286,8 +287,7 @@ public class MainActivity_Multi extends Activity {
         setStatusText("placeholder");
 
         Log.d("MainActivity_Multi", "sent payload");
-        // No changing your mind!
-        //setGameChoicesEnabled(false);
+
     }
 
     public void makeMove() {
@@ -296,6 +296,7 @@ public class MainActivity_Multi extends Activity {
 
     private void finishRound(String result) {
         //Log.d("Round Finished", oppdir);
+        v.vibrate(300); //vibrate each new "turn"
         if (result.equals("LOSE") && attacking == false) {
             // Loss!
             Toast toast = Toast.makeText(getApplicationContext(), "You were hit, you now attack", Toast.LENGTH_LONG);
@@ -303,18 +304,19 @@ public class MainActivity_Multi extends Activity {
             opponentScore++;
             attacking = true;
 
-        } else if (result.equals("LOSE") && attacking == true) {
+        } else if(result.equals("LOSE") && attacking == true) {
             Toast toast = Toast.makeText(getApplicationContext(), "Your attack was parried, you now defend", Toast.LENGTH_LONG);
             toast.show();
             attacking = false;
+
             // Loss
 
-        } else if (result.equals("WIN") && attacking == false) {
+        } else if(result.equals("WIN") && attacking == false) {
             Toast toast = Toast.makeText(getApplicationContext(), "You parried an attack, you now attack", Toast.LENGTH_LONG);
             toast.show();
             attacking = true;
 
-        } else if (result.equals("WIN") && attacking == true) {
+        } else if(result.equals("WIN") && attacking == true){
             Toast toast = Toast.makeText(getApplicationContext(), "You landed an attack, you now defend", Toast.LENGTH_LONG);
             toast.show();
             myScore++;
@@ -322,15 +324,13 @@ public class MainActivity_Multi extends Activity {
 
         }
 
-        if (attacking) {
+        if(attacking){
             defenseStatement = findViewById(R.id.defenseStatement);
             defenseStatement.setText("You are attacking.");
-//            setContentView(R.layout.multiplayer_attack);
 
-        } else {
+        }else{
             defenseStatement = findViewById(R.id.defenseStatement);
             defenseStatement.setText("You are defending.");
-//            setContentView(R.layout.game_screen);
 
         }
         direction = null;
@@ -342,9 +342,6 @@ public class MainActivity_Multi extends Activity {
 
     }
 
-    private void startNextRound() {
-        if (attacking) ;
-    }
 
     private void setButtonState(boolean connected) {
         findOpponentButton.setEnabled(true);
@@ -366,25 +363,6 @@ public class MainActivity_Multi extends Activity {
         scoreText.setText(getString(R.string.game_score, myScore, opponentScore));
     }
 
-/*
-WIFI BULLSHIT ENDS HERE
- */
-
-    public Boolean sensorToggled = false;
-
-    public static int START_WINDOW = 1000;
-    public static int TIMING_WINDOW = 3000;
-    public static final Random rand = new Random();
-
-    public Timer timer = new Timer();
-
-    public TimerTask timerTaskLoad;
-    public TimerTask timerTaskEnd;
-
-    public int playState = -1;
-
-    public Intent sensorIntent;
-
 
     @Override
     protected void onCreate(@Nullable Bundle bundle) {
@@ -400,6 +378,7 @@ WIFI BULLSHIT ENDS HERE
 
         TextView nameView = findViewById(R.id.name);
         nameView.setText(getString(R.string.codename, codeName));
+
 
 
         connectionsClient = Nearby.getConnectionsClient(this);
@@ -421,10 +400,8 @@ WIFI BULLSHIT ENDS HERE
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int eventaction = event.getAction();
 
-
-        if (!sensorToggled) {
+        if(!sensorToggled){
             sensorToggled = true;
         }
         return true;
@@ -436,10 +413,10 @@ WIFI BULLSHIT ENDS HERE
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
             int result = intent.getIntExtra("result", 1);
-            Log.d("inverted", Boolean.toString(inverted));
+            //Log.d("inverted",  Boolean.toString(inverted));
 
-            if (inverted) {
-                switch (result) {
+            if(inverted){
+                switch(result){
                     case 1:
                         result = 3;
                         break;
@@ -455,7 +432,7 @@ WIFI BULLSHIT ENDS HERE
                 }
             }
 
-            if (sensorToggled) {
+            if(sensorToggled) {
                 switch (result) {
                     case 1:
                         Log.d("MainActivity_Multi", "LEFT");
@@ -482,10 +459,10 @@ WIFI BULLSHIT ENDS HERE
 
                 sensorToggled = false;
                 timer.cancel();
-                if (attacking != null) {
+                if(attacking != null) {
                     if (attacking == false) {
-                        if (oppdir != null) {
-                            if (direction.equals(oppdir) || (direction.equals("LEFT") && oppdir.equals("RIGHT")) || (direction.equals("RIGHT") && oppdir.equals("LEFT"))) {
+                        if(oppdir != null) {
+                            if (direction.equals(oppdir) || (direction.equals("LEFT") && oppdir.equals("RIGHT"))|| (direction.equals("RIGHT") && oppdir.equals("LEFT"))) {
 
                                 connectionsClient.sendPayload(
                                         opponentEndpointId, Payload.fromBytes("LOSE".getBytes(UTF_8)));
@@ -507,17 +484,18 @@ WIFI BULLSHIT ENDS HERE
         }
     };
 
-    public void createMultiGesture() {
+    public void createMultiGesture(){
+
+        v.vibrate(100); //vibrate each new "turn"
 
         timer = new Timer();
-        timerTaskEnd = new TimerTask() {
+        timerTaskEnd = new TimerTask(){
             @Override
-            public void run() {
-                v.vibrate(100); //vibrate each new "turn"
+            public void run(){
 
                 runOnUiThread(new Runnable() {
                     @Override
-                    public void run() {
+                    public void run(){
                         finishRound("LOSE");
                     }
 
@@ -531,11 +509,13 @@ WIFI BULLSHIT ENDS HERE
         };
 
 
+
         timer.schedule(timerTaskEnd, TIMING_WINDOW);
     }
 
 
-//commited at 11:37 am
+    //commited at 11:57 am
+
 
 
 }
