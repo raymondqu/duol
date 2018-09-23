@@ -21,7 +21,7 @@ public class SensorActivity extends Service implements SensorEventListener{
 
     private Sensor mySensor;
     private SensorManager SM;
-    public Boolean inverted = true;
+    public Boolean inverted = false;
 
     private static int THRESHOLD = 2;
     private static int COOLDOWN = 100;

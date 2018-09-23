@@ -444,14 +444,15 @@ WIFI BULLSHIT ENDS HERE
                 if(attacking != null) {
                     if (attacking == false) {
                         if(oppdir != null) {
-                            if (direction.equals(oppdir)) {
-                                connectionsClient.sendPayload(
-                                        opponentEndpointId, Payload.fromBytes("WIN".getBytes(UTF_8)));
-                                finishRound("LOSE");
-                            } else {
+                            if (direction.equals(oppdir) || (direction.equals("LEFT") && oppdir.equals("RIGHT"))|| (direction.equals("RIGHT") && oppdir.equals("LEFT"))) {
+
                                 connectionsClient.sendPayload(
                                         opponentEndpointId, Payload.fromBytes("LOSE".getBytes(UTF_8)));
                                 finishRound("WIN");
+                            } else {
+                                connectionsClient.sendPayload(
+                                        opponentEndpointId, Payload.fromBytes("WIN".getBytes(UTF_8)));
+                                finishRound("LOSE");
                             }
                         }
                     } else {
