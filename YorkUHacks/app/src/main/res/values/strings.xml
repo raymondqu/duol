@@ -25,4 +25,9 @@
   <string name="choice_scissors">Scissors</string>
 
   <string name="game_score">%1$d : %2$d</string>
+
+  <string name="main_menu_title">Welcome to Duol!</string>
+  <string name="connect_to_bluetooth">Connect to second player</string>
+  <string name="main_menu_singleplayer">Practice!</string>    <string name="main_menu_practice">Practice!</string>
+
 </resources>
