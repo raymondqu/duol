@@ -435,10 +435,12 @@ WIFI BULLSHIT ENDS HERE
                     if (attacking == false) {
                         if (direction.equals(oppdir)) {
                             connectionsClient.sendPayload(
-                                    opponentEndpointId, Payload.fromBytes("WIN".getBytes(UTF_8)));
+                                    opponentEndpointId, Payload.fromBytes("LOSE".getBytes(UTF_8)));
+                            finishRound("WIN");
                         } else {
                             connectionsClient.sendPayload(
-                                    opponentEndpointId, Payload.fromBytes("LOSE".getBytes(UTF_8)));
+                                    opponentEndpointId, Payload.fromBytes("WIN".getBytes(UTF_8)));
+                            finishRound("LOSE");
                         }
                     } else {
                         connectionsClient.sendPayload(
