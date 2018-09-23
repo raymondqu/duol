@@ -312,25 +312,23 @@ WIFI BULLSHIT ENDS HERE
     public static int TIMING_WINDOW = 2000;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(@Nullable Bundle bundle) {
+        super.onCreate(bundle);
         setContentView(R.layout.activity_main);
 
-
+        findOpponentButton = findViewById(R.id.find_opponent);
+        disconnectButton = findViewById(R.id.disconnect);
 
         opponentText = findViewById(R.id.opponent_name);
-    statusText = findViewById(R.id.status);
-    scoreText = findViewById(R.id.score);
+        statusText = findViewById(R.id.status);
+        scoreText = findViewById(R.id.score);
 
-    TextView nameView = findViewById(R.id.name);
-    nameView.setText(getString(R.string.codename, codeName));
+        TextView nameView = findViewById(R.id.name);
+        nameView.setText(getString(R.string.codename, codeName));
 
-    connectionsClient = Nearby.getConnectionsClient(this);
+        connectionsClient = Nearby.getConnectionsClient(this);
 
-    resetGame();
-
-
-
+        resetGame();
     }
 
     @Override
