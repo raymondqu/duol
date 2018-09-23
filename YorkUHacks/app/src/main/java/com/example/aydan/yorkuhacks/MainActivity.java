@@ -255,6 +255,26 @@ public class MainActivity extends Activity{
 
     }
 
+    private void setButtonState(boolean connected) {
+        findOpponentButton.setEnabled(true);
+        findOpponentButton.setVisibility(connected ? View.GONE : View.VISIBLE);
+        disconnectButton.setVisibility(connected ? View.VISIBLE : View.GONE);
+
+        setGameChoicesEnabled(connected);
+    }
+
+    private void setStatusText(String text) {
+        statusText.setText(text);
+    }
+
+    private void setOpponentName(String opponentName) {
+        opponentText.setText(getString(R.string.opponent_name, opponentName));
+    }
+
+    private void updateScore(int myScore, int opponentScore) {
+        scoreText.setText(getString(R.string.game_score, myScore, opponentScore));
+    }
+
 /*
 WIFI BULLSHIT ENDS HERE
 
