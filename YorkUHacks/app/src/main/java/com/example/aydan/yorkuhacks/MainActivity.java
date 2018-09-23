@@ -88,7 +88,7 @@ public class MainActivity extends Activity{
             new EndpointDiscoveryCallback() {
                 @Override
                 public void onEndpointFound(String endpointId, DiscoveredEndpointInfo info) {
-                    Log.i(TAG, "onEndpointFound: endpoint found, connecting");
+                    Log.i("MainActivity", "onEndpointFound: endpoint found, connecting");
                     connectionsClient.requestConnection(codeName, endpointId, connectionLifecycleCallback);
                 }
 
