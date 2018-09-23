@@ -194,11 +194,6 @@ public class MainActivity extends Activity{
         resetGame();
     }
 
-    public void makeMove() {
-        sendGameChoice(direction);
-
-
-    }
 
     /** Starts looking for other players using Nearby Connections. */
     private void startDiscovery() {
