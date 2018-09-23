@@ -277,7 +277,7 @@ public class MainActivity extends Activity{
     }
 
     private void finishRound(String result) {
-        Log.d("Round Finished", oppdir);
+        //Log.d("Round Finished", oppdir);
         if (result == "LOSE" && attacking == false) {
             // Loss!
             Toast toast = Toast.makeText(getApplicationContext(), "You were hit, you now attack", Toast.LENGTH_LONG);
@@ -390,8 +390,6 @@ WIFI BULLSHIT ENDS HERE
 
 
         if(!sensorToggled){
-            connectionsClient.sendPayload(
-                    opponentEndpointId, Payload.fromBytes(direction.getBytes(UTF_8)));
             sensorToggled = true;
         }
         return true;
@@ -434,6 +432,10 @@ WIFI BULLSHIT ENDS HERE
                     Log.d("MainActivity", "WRONG MOTION!");
                 }
                 sensorToggled = false;
+
+                connectionsClient.sendPayload(
+                            opponentEndpointId, Payload.fromBytes(direction.getBytes(UTF_8)));
+
 
                 //createGesture();
             }
