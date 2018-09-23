@@ -100,7 +100,7 @@ public class MainActivity extends Activity{
             new ConnectionLifecycleCallback() {
                 @Override
                 public void onConnectionInitiated(String endpointId, ConnectionInfo connectionInfo) {
-                    Log.i(TAG, "onConnectionInitiated: accepting connection");
+                    Log.i("MainActivity", "onConnectionInitiated: accepting connection");
                     connectionsClient.acceptConnection(endpointId, payloadCallback);
                     opponentName = connectionInfo.getEndpointName();
                 }
@@ -108,7 +108,7 @@ public class MainActivity extends Activity{
                 @Override
                 public void onConnectionResult(String endpointId, ConnectionResolution result) {
                     if (result.getStatus().isSuccess()) {
-                        Log.i(TAG, "onConnectionResult: connection successful");
+                        Log.i("MainActivity", "onConnectionResult: connection successful");
 
                         connectionsClient.stopDiscovery();
                         connectionsClient.stopAdvertising();
@@ -118,13 +118,13 @@ public class MainActivity extends Activity{
                         setStatusText(getString(R.string.status_connected));
                         setButtonState(true);
                     } else {
-                        Log.i(TAG, "onConnectionResult: connection failed");
+                        Log.i("MainActivity", "onConnectionResult: connection failed");
                     }
                 }
 
                 @Override
                 public void onDisconnected(String endpointId) {
-                    Log.i(TAG, "onDisconnected: disconnected from the opponent");
+                    Log.i("MainActivity", "onDisconnected: disconnected from the opponent");
                     resetGame();
                 }
             };
@@ -229,7 +229,7 @@ public class MainActivity extends Activity{
 
         setStatusText("placeholder");
         // No changing your mind!
-        setGameChoicesEnabled(false);
+        //setGameChoicesEnabled(false);
     }
     private void finishRound() {
         if (atkChoice != defChoice) {
@@ -260,7 +260,7 @@ public class MainActivity extends Activity{
         findOpponentButton.setVisibility(connected ? View.GONE : View.VISIBLE);
         disconnectButton.setVisibility(connected ? View.VISIBLE : View.GONE);
 
-        setGameChoicesEnabled(connected);
+        //setGameChoicesEnabled(connected);
     }
 
     private void setStatusText(String text) {
@@ -353,7 +353,7 @@ WIFI BULLSHIT ENDS HERE
         }
     }//onActivityResult
 
-    //commited at 8:11 by Aydan
+    //commited at 8:20 by Aydan
 
 
 
