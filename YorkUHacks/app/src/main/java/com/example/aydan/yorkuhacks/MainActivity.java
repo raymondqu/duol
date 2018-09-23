@@ -81,18 +81,23 @@ public class MainActivity extends Activity{
     private String opponentEndpointId;
     private String opponentName;
     private int opponentScore;
-    private int atkChoice;
-    private int defChoice;
+
     private TextView opponentText;
     private TextView statusText;
     private TextView scoreText;
     private Button findOpponentButton;
     private Button disconnectButton;
+
+
     private final PayloadCallback payloadCallback =
             new PayloadCallback() {
                 @Override
                 public void onPayloadReceived(String endpointId, Payload payload) {
+                    Log.d("MainActivity", "got payload");
                     oppdir = new String(payload.asBytes(), UTF_8);
+                    if(oppdir == "UP"){
+                        myScore++;
+                    }
                 }
 
                 @Override
@@ -243,6 +248,8 @@ public class MainActivity extends Activity{
                 opponentEndpointId, Payload.fromBytes(direction.getBytes(UTF_8)));
 
         setStatusText("placeholder");
+
+        Log.d("MainActivity", "sent payload");
         // No changing your mind!
         //setGameChoicesEnabled(false);
     }
@@ -354,6 +361,7 @@ WIFI BULLSHIT ENDS HERE
         connectionsClient = Nearby.getConnectionsClient(this);
 
         resetGame();
+
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
                 new IntentFilter("result"));
 
@@ -361,7 +369,7 @@ WIFI BULLSHIT ENDS HERE
         sensorIntent = new Intent(MainActivity.this, SensorActivity.class);
         startService(sensorIntent);
 
-        createGesture();
+        //createGesture();
 
     }
 
@@ -371,6 +379,8 @@ WIFI BULLSHIT ENDS HERE
 
 
         if(!sensorToggled){
+            connectionsClient.sendPayload(
+                    opponentEndpointId, Payload.fromBytes(direction.getBytes(UTF_8)));
             sensorToggled = true;
         }
         return true;
@@ -414,7 +424,7 @@ WIFI BULLSHIT ENDS HERE
                 }
                 sensorToggled = false;
 
-                createGesture();
+                //createGesture();
             }
         }
     };
