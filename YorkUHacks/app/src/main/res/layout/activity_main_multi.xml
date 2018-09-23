@@ -26,6 +26,26 @@
         android:textSize="30sp"
         android:textStyle="bold" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:orientation="horizontal">
+
+        <Switch
+            android:id="@+id/invertSwitch"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Inverted?" />
+
+        <Switch
+            android:id="@+id/startSwitch"
+            android:layout_width="129dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Starting?" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/score"
         android:layout_width="match_parent"

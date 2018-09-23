@@ -52,6 +52,8 @@ public class MainActivity extends Activity{
 
     public Intent sensorIntent;
 
+    public Boolean inverted = false;
+
     Vibrator v;
 
 
@@ -77,7 +79,9 @@ public class MainActivity extends Activity{
             @Override
             public void onClick(View v) {
                 //start multiplayer
-                startActivity(new Intent(MainActivity.this, MainActivity_Multi.class));
+                Intent i = new Intent(MainActivity.this, MainActivity_Multi.class);
+                //i.putExtra()
+                startActivity(i);
 
                 //close this activity
                 finish();
