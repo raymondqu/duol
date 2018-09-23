@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-maven { url "https://maven.google.com" }
+
 android {
     compileSdkVersion 28
     defaultConfig {
