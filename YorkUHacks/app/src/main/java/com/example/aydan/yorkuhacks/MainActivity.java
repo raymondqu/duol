@@ -288,8 +288,8 @@ WIFI BULLSHIT ENDS HERE
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*
-        more wifi bullshit
+
+
         opponentText = findViewById(R.id.opponent_name);
     statusText = findViewById(R.id.status);
     scoreText = findViewById(R.id.score);
@@ -302,7 +302,7 @@ WIFI BULLSHIT ENDS HERE
     resetGame();
 
 
-         */
+
     }
 
     @Override
