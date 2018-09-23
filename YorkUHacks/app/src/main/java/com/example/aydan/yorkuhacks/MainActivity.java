@@ -58,6 +58,8 @@ public class MainActivity extends Activity{
     public int result = 0;
     public String direction;
     public String oppdir;
+
+    public static boolean STARTING = false;
     /*
     wifi bullshit starts here
 
@@ -132,6 +134,16 @@ public class MainActivity extends Activity{
                 public void onConnectionResult(String endpointId, ConnectionResolution result) {
                     if (result.getStatus().isSuccess()) {
                         Log.i("MainActivity", "onConnectionResult: connection successful");
+                        if(STARTING){
+                            Toast toast = Toast.makeText(getApplicationContext(), "You attac", Toast.LENGTH_LONG);
+                            attacking = true;
+                            toast.show();
+                        }else{
+                            Toast toast = Toast.makeText(getApplicationContext(), "You defend", Toast.LENGTH_LONG);
+                            attacking = false;
+                            toast.show();
+                        }
+
 
                         connectionsClient.stopDiscovery();
                         connectionsClient.stopAdvertising();
@@ -217,9 +229,6 @@ public class MainActivity extends Activity{
 
     /** Starts looking for other players using Nearby Connections. */
     private void startDiscovery() {
-        attacking = false;
-        Toast toast = Toast.makeText(getApplicationContext(), "You are defending", Toast.LENGTH_LONG);
-        toast.show();
 
         // Note: Discovery may fail. To keep this demo simple, we don't handle failures.
         connectionsClient.startDiscovery(
@@ -227,9 +236,7 @@ public class MainActivity extends Activity{
     }
 
     private void startAdvertising() {
-        attacking = true;
-        Toast toast = Toast.makeText(getApplicationContext(), "You attac", Toast.LENGTH_LONG);
-        toast.show();
+
         // Note: Advertising may fail. To keep this demo simple, we don't handle failures.
         connectionsClient.startAdvertising(
                 codeName, getPackageName(), connectionLifecycleCallback, new AdvertisingOptions(STRATEGY));
