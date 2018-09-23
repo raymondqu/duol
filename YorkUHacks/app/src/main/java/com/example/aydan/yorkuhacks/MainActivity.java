@@ -180,7 +180,7 @@ public class MainActivity extends Activity{
     public void findOpponent(View view) {
         startAdvertising();
         startDiscovery();
-        setStatusText(getString("Searching..."));
+        setStatusText("Searching...");
         findOpponentButton.setEnabled(false);
     }
 
@@ -288,7 +288,7 @@ WIFI BULLSHIT ENDS HERE
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+    /*
 
         opponentText = findViewById(R.id.opponent_name);
     statusText = findViewById(R.id.status);
@@ -300,7 +300,7 @@ WIFI BULLSHIT ENDS HERE
     connectionsClient = Nearby.getConnectionsClient(this);
 
     resetGame();
-
+*/
 
 
     }
@@ -353,7 +353,7 @@ WIFI BULLSHIT ENDS HERE
         }
     }//onActivityResult
 
-    //commited at 8:41 by Aydan
+    //commited at 8:51 by Aydan
 
 
 
