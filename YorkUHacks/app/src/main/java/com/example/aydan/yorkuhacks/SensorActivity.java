@@ -21,6 +21,7 @@ public class SensorActivity extends Service implements SensorEventListener{
 
     private Sensor mySensor;
     private SensorManager SM;
+    public Boolean inverted = true;
 
     private static int THRESHOLD = 2;
     private static int COOLDOWN = 100;
@@ -53,23 +54,45 @@ public class SensorActivity extends Service implements SensorEventListener{
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        //Log.d("x:", Float.toString(event.values[0]));
+
+
 
         if(event.values[0] < -THRESHOLD)
         {
-            sendDirection(1);
+            if(!inverted) {
+                sendDirection(1);
+            }
+            else {
+                sendDirection(3);
+            }
+
         }
         if(event.values[2] > THRESHOLD)
         {
-            sendDirection(2);
+            if(!inverted) {
+                sendDirection(2);
+            }
+            else {
+                sendDirection(4);
+            }
         }
         if(event.values[0] > THRESHOLD)
         {
-            sendDirection(3);
+            if(!inverted) {
+                sendDirection(3);
+            }
+            else {
+                sendDirection(1);
+            }
         }
         if(event.values[2] < -THRESHOLD)
         {
-            sendDirection(4);
+            if(!inverted) {
+                sendDirection(4);
+            }
+            else {
+                sendDirection(2);
+            }
         }
 
 
