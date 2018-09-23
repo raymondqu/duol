@@ -52,7 +52,7 @@ public class MainActivity_Multi extends Activity{
     public String direction;
     public String oppdir;
 
-    public static boolean STARTING = true; //default true
+    public static boolean STARTING = false; //default true
     /*
     wifi bullshit starts here
 
@@ -446,12 +446,12 @@ WIFI BULLSHIT ENDS HERE
                         if(oppdir != null) {
                             if (direction.equals(oppdir)) {
                                 connectionsClient.sendPayload(
-                                        opponentEndpointId, Payload.fromBytes("WIN".getBytes(UTF_8)));
-                                finishRound("LOSE");
-                            } else {
-                                connectionsClient.sendPayload(
                                         opponentEndpointId, Payload.fromBytes("LOSE".getBytes(UTF_8)));
                                 finishRound("WIN");
+                            } else {
+                                connectionsClient.sendPayload(
+                                        opponentEndpointId, Payload.fromBytes("WIN".getBytes(UTF_8)));
+                                finishRound("LOSE");
                             }
                         }
                     } else {
