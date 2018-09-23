@@ -491,8 +491,15 @@ WIFI BULLSHIT ENDS HERE
         timerTaskEnd = new TimerTask(){
             @Override
             public void run(){
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run(){
+                        finishRound("LOSE");
+                    }
+
+                });
                 Log.d("MainActivity", "MISS!");
-                finishRound("LOSE");
                 connectionsClient.sendPayload(
                         opponentEndpointId, Payload.fromBytes("WIN".getBytes(UTF_8)));
             }
