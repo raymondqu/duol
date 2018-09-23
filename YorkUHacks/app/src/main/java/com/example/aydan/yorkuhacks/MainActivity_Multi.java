@@ -306,9 +306,13 @@ public class MainActivity_Multi extends Activity{
         if(attacking){
             defenseStatement = findViewById(R.id.defenseStatement);
             defenseStatement.setText("You are attacking.");
+            setContentView(R.layout.multiplayer_attack);
+
         }else{
             defenseStatement = findViewById(R.id.defenseStatement);
             defenseStatement.setText("You are defending.");
+            setContentView(R.layout.game_screen);
+
         }
         direction = null;
         oppdir = null;
