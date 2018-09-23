@@ -41,6 +41,7 @@ import com.google.android.gms.nearby.connection.Strategy;
 
 
 public class MainActivity extends Activity{
+    public Boolean attacking;
     public int result = 0;
     public String direction;
     public String oppdir;
@@ -197,12 +198,14 @@ public class MainActivity extends Activity{
 
     /** Starts looking for other players using Nearby Connections. */
     private void startDiscovery() {
+        attacking = false;
         // Note: Discovery may fail. To keep this demo simple, we don't handle failures.
         connectionsClient.startDiscovery(
                 getPackageName(), endpointDiscoveryCallback, new DiscoveryOptions(STRATEGY));
     }
 
     private void startAdvertising() {
+        attacking = true;
         // Note: Advertising may fail. To keep this demo simple, we don't handle failures.
         connectionsClient.startAdvertising(
                 codeName, getPackageName(), connectionLifecycleCallback, new AdvertisingOptions(STRATEGY));
@@ -230,20 +233,46 @@ public class MainActivity extends Activity{
         // No changing your mind!
         //setGameChoicesEnabled(false);
     }
+
+    public void makeMove() {
+
+            sendGameChoice();
+
+    }
+
     private void finishRound() {
-        if (atkChoice != defChoice) {
-            // Win!
-            Toast toast = Toast.makeText(getApplicationContext(), "Attacker Wins", Toast.LENGTH_LONG);
+        if (direction.equals(oppdir) && attacking == false) {
+            // Loss!
+            Toast toast = Toast.makeText(getApplicationContext(), "You were hit", Toast.LENGTH_LONG);
+            toast.show();
+            opponentScore++;
+
+
+        } else if(direction.equals(oppdir) && attacking == true) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Your attack was parried", Toast.LENGTH_LONG);
+            toast.show();
+            attacking = false;
+            // Loss
+
+
+        }
+
+        else if(direction.equals(oppdir) && attacking == false) {
+            Toast toast = Toast.makeText(getApplicationContext(), "You parried an attack", Toast.LENGTH_LONG);
+            toast.show();
+            attacking = true;
+
+
+
+        }
+
+        else{
+            Toast toast = Toast.makeText(getApplicationContext(), "Your landed an attack", Toast.LENGTH_LONG);
             toast.show();
             myScore++;
 
 
-        } else {
-            Toast toast = Toast.makeText(getApplicationContext(), "Defender wins", Toast.LENGTH_LONG);
-            toast.show();
-            // Loss
 
-            opponentScore++;
         }
         direction = null;
         oppdir = null;
