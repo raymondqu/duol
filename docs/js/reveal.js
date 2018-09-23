@@ -3,5 +3,16 @@ $(document).on('click', 'a[href^="#"]', function (event) {
 
     $('html, body').animate({
         scrollTop: $($.attr(this, 'href')).offset().top
-    }, 500);
+    }, 5000);
+});
+
+$(function() {
+   $(window).scroll(function () {
+      if ($(this).scrollTop() > 50) {
+         $(‘body’).addClass(‘changeColor’)
+      }
+      if ($(this).scrollTop() < 50) {
+         $(‘body’).removeClass(‘changeColor’)
+      }
+   });
 });

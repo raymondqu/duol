@@ -7,31 +7,33 @@
     vertical-align: baseline;
 }
 
-.select-disabled {
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -o-user-select: none;
-    user-select: none;
-    pointer-events: none;
-}
-
 body {
     width: 100%;
+    background: white;
+}
+
+.changeColor {
+   background: green;
+}
+
+p {
+  font-family: 'Raleway';
+  font-size: 1.5em;
+  font-weight: 300;
+  line-height: 1.6em;
+  padding-top: 1em;
 }
 
 h1 {
     font-family: 'Raleway', light;
     font-size: 4em;
     font-weight: 500;
-    color: #ffffff;
 }
 
 h2 {
     font-family: 'Raleway';
     font-size: 1.5em;
     font-weight: 300;
-    color: #d1d1d1;
     line-height: 1.6em;
 }
 
@@ -53,9 +55,20 @@ a {
 .logo {
     font-family: 'Playfair Display';
     font-weight: 700;
-    font-size: 2em;
+    font-size: 2.2em;
     display: inline;
     padding-left: 10%;
+    padding-top: -10%;
+    z-index: -1;
+
+    animation-name: slidefromleft;
+    animation-duration: 2s;
+    animation-delay: 1.25s;
+    animation-fill-mode: backwards;
+}
+
+div {
+
 }
 
 nav {
@@ -81,21 +94,11 @@ nav a img {
     height: 55px;
 }
 
-/*-----/NAV-----*/
-
-/*-----HEADER-----*/
-
 header {
-    height: 105vh;
+    height: 100vh;
     min-height: 105vh;
     padding: 0 5%;
     background-image: url(images/trianglify.svg);
-    -webkit-clip-path: polygon(100% 0, 100% 100%, 83% 98%, 71% 97%, 59% 99%, 44% 96%, 24% 99%, 12% 97%, 0 100%, 0 0);
-    clip-path: polygon(100% 0, 100% 100%, 83% 98%, 71% 97%, 59% 99%, 44% 96%, 24% 99%, 12% 97%, 0 100%, 0 0);
-    /* Set a specific height */
-    height: 500px;
-
-    /* Create the parallax scrolling effect */
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -105,25 +108,25 @@ header {
     background-size: auto auto; */
 }
 
+.clearfix {
+  clear: both;
+}
+
+.select-disabled {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
 .headline h1 {
-    padding-bottom: 30px;
+  padding-bottom: 30px;
 }
 
 .headline h2 {
-    padding-bottom: 30px;
-}
-
-
-.headline {
-    padding-left: 5%;
-    padding-top: 10%;
-    margin-right: 50%;
-}
-
-.phone {
-    height: 80vh;
-    margin-left: 42vw;
-    margin-top: -60vh;
+  padding-bottom: 30px;
 }
 
 .button {
@@ -198,6 +201,229 @@ header {
     color: inherit;
 }
 
+.whitetext {
+  color: #eee;
+}
+
+/*-----ABOUT-----*/
+
+.about {
+  display: block;
+  background-color: #eee;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cpolygon fill='%233d93cc' points='977 570 539 900 1396 900'/%3E%3Cpolygon fill='%234947aa' points='977 570 872.9 900 1396 900'/%3E%3Cpolygon fill='%233185ce' points='-60 900 398 662 816 900'/%3E%3Cpolygon fill='%23593fa6' points='337 900 398 662 816 900'/%3E%3Cpolygon fill='%233a75cd' points='1203 546 1552 900 876 900'/%3E%3Cpolygon fill='%236636a0' points='1203 546 1552 900 1162 900'/%3E%3Cpolygon fill='%234e63c7' points='641 695 886 900 367 900'/%3E%3Cpolygon fill='%23732b99' points='587 900 641 695 886 900'/%3E%3Cpolygon fill='%23654dbc' points='1710 900 1401 632 1096 900'/%3E%3Cpolygon fill='%237e1d91' points='1710 900 1401 632 1365 900'/%3E%3Cpolygon fill='%237b2faa' points='1210 900 971 687 725 900'/%3E%3Cpolygon fill='%23880088' points='943 900 1210 900 971 687'/%3E%3C/svg%3E");
+  transform: translateY(1000px);
+  transform: scaleX(-1);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  font-family: 'Raleway';
+}
+
+.aboutcontent {
+  transform: scaleX(-1);
+  padding-top: 25vh;
+  width: 70vw;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+span.a {
+    display: inline-block;
+    width: auto;
+    height: auto;
+    padding: 5px;
+    border: 1px solid blue;
+    background-color: yellow;
+}
+
+span.b {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    padding: 5px;
+    border: 1px solid blue;
+    background-color: yellow;
+}
+
+.about-image {
+  margin-left: -5vw;
+  margin-right: 5vw;
+  margin-top: 5vw;
+  margin-bottom: 4vw;
+  height: 300px;
+  width: 300px;
+  border: 1px;
+}
+
+.about-sun {
+
+  transform: translateZ(0)
+
+  background-image: url("images/sun.png");
+  position: fixed;
+
+  float: right;
+
+  margin-top: 30vh;
+  width: 200px;
+  height: 200px;
+  animation-name: spin;
+  animation-duration: 50000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.padbottomabout {
+  padding-bottom: 45vh;
+}
+
+.section3 {
+    height: 82vh;
+    min-height: 50vh;
+    padding: 0 5%;
+    padding-left: 150px;
+    background-image: url(images/trianglify2.svg);
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.section3content {
+  padding-top: 9vh;
+  width: 80vw;
+}
+
+.section3-image {
+  margin-left: 5vw;
+  margin-top: 2vw;
+  margin-bottom: 4vw;
+  float: right;
+
+  width: 300px;
+  height: 300px;
+  animation-name: spin;
+  animation-duration: 5000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+/*-----FOOTER-----*/
+
+footer {
+    background-image: url(images/trianglify.svg);
+    display: block;
+}
+
+.paddingfooter {
+  margin: auto;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+/* Middle Text */
+
+.middletext {
+  font-family: 'Raleway';
+  font-weight: 700;
+  font-size: 9rem;
+
+  text-align: center;
+  position: fixed;
+  right: 41vw;
+  width: 300px;
+  padding: 30vh 0;
+
+  z-index: 1;
+  animation-name: fadein;
+  animation-duration: 1s;
+  animation-delay: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+/* Phone Animation */
+
+.phone {
+    height: 80vh;
+    margin-left: 47vw;
+    margin-top: -75vh;
+    animation-name: slidefromright;
+    animation-duration: 2s;
+    animation-delay: 1.25s;
+    animation-fill-mode: backwards;
+}
+
+/* Headline Text Animation */
+
+.headline {
+    padding-left: 5%;
+    padding-top: 5%;
+    margin-right: 50%;
+    animation-name: slidefromleft;
+    animation-duration: 2s;
+    animation-delay: 1.25s;
+    animation-fill-mode: backwards;
+}
+
+/* Fadein Animation */
+
+.fadein {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: magenta;
+  -webkit-animation-name: fadein; /* Safari 4.0 - 8.0 */
+  -webkit-animation-delay: 0.5s; /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 2s; /* Safari 4.0 - 8.0 */
+  -webkit-fill-mode: forwards; /* Safari 4.0 - 8.0 */
+  animation-name: fadein;
+  animation-delay: 0.25s;
+  animation-duration: 3.5s;
+  animation-fill-mode: forwards;
+}
+
+/* Bar Animation */
+
+.bar {
+    position: fixed;
+    width: 25vw;
+    height: 100vw;
+    left: 0;
+    top: 0;
+    background-color: #4c369c;
+    -webkit-animation-name: motto; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 1.5s; /* Safari 4.0 - 8.0 */
+    -webkit-fill-mode: forwards; /* Safari 4.0 - 8.0 */
+    animation-name: motto;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    float: left;
+    z-index: 1;
+}
+
+.bar1 {
+  animation-delay: 0.75s;
+}
+
+.bar2 {
+  animation-delay: 1s;
+  margin-left: 25vw;
+}
+
+.bar3 {
+  animation-delay: 1.25s;
+  margin-left: 50vw;
+}
+
+.bar4 {
+  animation-delay: 1.5s;
+  margin-left: 75vw;
+}
+
+/* Animation stuffs */
+
 @keyframes fx-mask {
     0% {
         transform: translateX(-100%) rotate(45deg);
@@ -232,52 +458,61 @@ header {
     }
 }
 
-/*-----ABOUT-----*/
+/* Drop-down Bars */
 
-.about {
-    background-color: #ffffff;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cpolygon fill='%233d93cc' points='957 450 539 900 1396 900'/%3E%3Cpolygon fill='%234947aa' points='957 450 872.9 900 1396 900'/%3E%3Cpolygon fill='%233185ce' points='-60 900 398 662 816 900'/%3E%3Cpolygon fill='%23593fa6' points='337 900 398 662 816 900'/%3E%3Cpolygon fill='%233a75cd' points='1203 546 1552 900 876 900'/%3E%3Cpolygon fill='%236636a0' points='1203 546 1552 900 1162 900'/%3E%3Cpolygon fill='%234e63c7' points='641 695 886 900 367 900'/%3E%3Cpolygon fill='%23732b99' points='587 900 641 695 886 900'/%3E%3Cpolygon fill='%23654dbc' points='1710 900 1401 632 1096 900'/%3E%3Cpolygon fill='%237e1d91' points='1710 900 1401 632 1365 900'/%3E%3Cpolygon fill='%237b2faa' points='1210 900 971 687 725 900'/%3E%3Cpolygon fill='%23880088' points='943 900 1210 900 971 687'/%3E%3C/svg%3E");
-    background-attachment: fixed;
-    background-size: cover;
+@-webkit-keyframes motto {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100%);
+    }
 }
 
-.about h1 {
-    margin: 1em 6em 0 2em;
-    color: #000000;
+@keyframes motto {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100%);
+    }
 }
 
-.bezeir2 {
-    margin-left: 5.2%;
+/* Phone */
+
+@keyframes slidefromright {
+  0% {
+    transform: translateX(200%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+
 }
 
-.about p {
-    margin: 0em 6em 0 5em;
-    font-family: 'Karla';
-    font-size: 1.5em;
-    font-weight: normal;
-    color: #000000;
-    grid-column: 1 / 3;
+/* Headline Text */
+
+@keyframes slidefromleft {
+  0% {
+    transform: translateX(-200%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+
 }
 
-.about-image {
-    float: right;
-    display: block;
-    width: 40%;
-    height: 40%;
-    margin: -46em 5em 0 0;
+/* Spinning Earth */
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
 }
 
-/*-----FOOTER-----*/
-
-footer {
-    padding: 1em 0 0 0;
-    background-image: url(images/trianglify.svg);
-}
-
-footer p,
-.footer-pages {
-    align-content: center;
-    align-self: center;
-    width: 50% !important;
-    margin: 0 auto !important;
+@keyframes fadein {
+    from { opacity: 1; }
+    to   { opacity: 0; }
 }

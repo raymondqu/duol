@@ -18,89 +18,103 @@
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="jquery.js"></script>
     <script src="js/reveal.js"></script>
+
 </head>
 
 <body>
+
+  <div class="fadein"></div>
+  <div class="bar bar1"></div>
+  <div class="bar bar2"></div>
+  <div class="bar bar3"></div>
+  <div class="bar bar4"></div>
+
+  <p class="middletext whitetext">Duol</p>
     <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-    <header>
-        <nav>
-            <a href="index.html">
-                <img src="images/logo.png">
-                <div class="logo">duol</div>
-            </a>
-            <a href="#Download">
-                <img class="download-btn" src="images/download-icon.svg" alt="download icon">
-            </a>
-        </nav>
+  <header class="whitetext">
+    <nav>
+      <a href="index.html">
+        <img src="images/logo.png">
+        <div class="logo">duol</div>
+      </a>
+      <a href="#Download">
+        <img class="download-btn" src="images/download-icon.svg" alt="download icon">
+      </a>
+    </nav>
 
-        <div class="headline">
-            <h1>a real-time mobile multiplayer for all to enjoy!</h1>
-            <h2>Dueling players can use their mobile devices to trade blows at each other in a fast-paced game that
-                is
-                easy for anyone to pick up!</h2>
-            <a class="enter" href="#Download">
-                <div class="button">
-                    <span class="button__mask"></span>
-                    <span class="button__text">DOWNLOAD</span>
-                    <span class="button__text button__text--bis">DOWNLOAD</span>
-                </div>
-            </a>
-            <a class="enter" href="#About">
-                <div class="button">
-                    <span class="button__mask"></span>
-                    <span class="button__text">LEARN MORE</span>
-                    <span class="button__text button__text--bis">LEARN MORE</span>
-                </div>
-            </a>
-            <img class="phone select-disabled" src="images/phone2.png">
-    </header>
+    <div class="headline">
+      <h1>The mobile PvP dueling game for all!</h1>
+      <h2>Dueling players can use their mobile devices to trade blows at each other in an easy and interactive fast-paced game</h2>
+      <a class="enter" href="#Download">
+        <div class="button">
+          <span class="button__mask"></span>
+          <span class="button__text">DOWNLOAD</span>
+          <span class="button__text button__text--bis">DOWNLOAD</span>
+        </div>
+      </a>
+      <a class="enter" href="#About">
+        <div class="button">
+          <span class="button__mask"></span>
+          <span class="button__text">LEARN MORE</span>
+          <span class="button__text button__text--bis">LEARN MORE</span>
+        </div>
+      </a>
+    </div>
+    <img class="phone select-disabled" src="images/phone2.png">
+  </header>
 
-    <section class="about" id="About">
-        <h1>
-            Story
-        </h1>
-        <div class="text-container">
-            <p>
-                Through the ages, dueling was traditionally fought out between foes using swords and rapiers, and we
-                have now brought it into the 21st century with a fun interactive game between two phone users.
-            </p>
-        </div>
-        <div class="text-container">
-            <p>
-                Following prompts on phone and reacting to the actions of your opponent, you take turns taking jabs at
-                each other to try to get them out of the game!
-            </p>
-        </div>
-        <div class="text-container">
-            <p>
-                doul aims to reduce screen time and improve social interactions through two player duels.
-                Let your imagination roam free and fight to the death!
-            </p>
-        </div>
-        <div class="text-container">
-        </div>
-        <div class="text-container">
-        </div>
-        <div class="text-container">
-        </div>
-        <div class="text-container">
-        </div>
-        <img class="about-image select-disabled" src="images/swords.svg">
-    </section>
-    <script src="" async defer></script>
-    <footer>
-        <a class="enter" href="#Download">
-            <div class="button">
-                <span class="button__mask"></span>
-                <span class="button__text">DOWNLOAD</span>
-                <span class="button__text button__text--bis">DOWNLOAD</span>
-            </div>
-        </a>
-    </footer>
+
+
+  <div class="about aboutbackground">
+    <img class="about-sun" src="images/sun.png">
+    <div class="aboutcontent">
+      <p style="float: left;"><img class="about-image" src="images/swords.svg"></p>
+      <div>
+        <h1 id="About">Story</h1>
+        <p>
+            Through the ages, dueling was traditionally fought out between foes using swords and rapiers, and we
+            have now brought it into the 21st century with a fun interactive game between two phone users.
+        </p>
+        <p>
+            Doul aims to reduce screen time and improve social interactions through two player duels.
+            Let your imagination roam free and fight to the death!
+        </p>
+        <p class="padbottomabout">
+            Following prompts on phone and reacting to the actions of your opponent, you take turns taking jabs at
+            each other to try to get them out of the game!
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section3 whitetext">
+    <div class="section3content">
+      <h1>Our Impact</h1>
+      <p><img class="section3-image" src="images/earthicon.png">
+        Even though technology has allowed us to be more connected to others, it also has an opposite effect of
+        contributing to social isolationism within some. Video games are an increasingly isolated hobby, often
+        with little positive contact with friends and can result in a lot of stress and shouting in dark rooms.
+      <br>
+      <br>
+        We aimed to change this with Duol. This game is both active and personal, allowing players to meet face
+        to face and experience a more personal communication than a typical voice or text chat. This helps bring
+        back a bit of humanity back into video games that we seem to have somewhat lost over the years, and
+        hopefully can change people’s playing behaviours for the better.
+      </p>
+    </div>
+  </div>
+
+  <footer>
+    <p class="whitetext paddingfooter">
+      © Duol 2018
+    </p>
+  </footer>
+
 </body>
 
 </html>
