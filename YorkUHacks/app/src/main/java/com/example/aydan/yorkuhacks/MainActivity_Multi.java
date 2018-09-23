@@ -353,7 +353,7 @@ WIFI BULLSHIT ENDS HERE
     @Override
     protected void onCreate(@Nullable Bundle bundle) {
         super.onCreate(bundle);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_multi);
 
         findOpponentButton = findViewById(R.id.find_opponent);
         disconnectButton = findViewById(R.id.disconnect);
