@@ -70,6 +70,8 @@ public class MainActivity_Multi extends Activity{
 
     private static final Strategy STRATEGY = Strategy.P2P_STAR;
 
+    public TextView defenseStatement;
+
     private ConnectionsClient connectionsClient;
     private int myScore;
     private String opponentEndpointId;
@@ -132,14 +134,19 @@ public class MainActivity_Multi extends Activity{
                     if (result.getStatus().isSuccess()) {
                         Log.i("MainActivity_Multi", "onConnectionResult: connection successful");
                         if(STARTING){
-                            Toast toast = Toast.makeText(getApplicationContext(), "You attac", Toast.LENGTH_LONG);
+                            Toast toast = Toast.makeText(getApplicationContext(), "You attack", Toast.LENGTH_LONG);
                             attacking = true;
                             toast.show();
+                            defenseStatement = findViewById(R.id.defenseStatement);
+                            defenseStatement.setText("You are attacking.");
                         }else{
                             Toast toast = Toast.makeText(getApplicationContext(), "You defend", Toast.LENGTH_LONG);
                             attacking = false;
+                            defenseStatement = findViewById(R.id.defenseStatement);
+                            defenseStatement.setText("You are defending.");
                             toast.show();
                         }
+
 
                         connectionsClient.stopDiscovery();
                         connectionsClient.stopAdvertising();
@@ -295,6 +302,14 @@ public class MainActivity_Multi extends Activity{
             attacking = false;
 
         }
+
+        if(attacking){
+            defenseStatement = findViewById(R.id.defenseStatement);
+            defenseStatement.setText("You are attacking.");
+        }else{
+            defenseStatement = findViewById(R.id.defenseStatement);
+            defenseStatement.setText("You are defending.");
+        }
         direction = null;
         oppdir = null;
 
@@ -302,6 +317,10 @@ public class MainActivity_Multi extends Activity{
 
         // Ready for another round
 
+    }
+
+    private void startNextRound(){
+        if(attacking);
     }
 
     private void setButtonState(boolean connected) {
@@ -344,7 +363,6 @@ WIFI BULLSHIT ENDS HERE
 
     public Intent sensorIntent;
 
-    public boolean startMulti = false;
 
     @Override
     protected void onCreate(@Nullable Bundle bundle) {
@@ -447,53 +465,6 @@ WIFI BULLSHIT ENDS HERE
         }
     };
 
-    public void createGesture(){
-        playState = -1;
-        timer.cancel();
-        timer = new Timer();
-
-        timerTaskLoad = new TimerTask(){
-
-            @Override
-            public void run() {
-                playState = rand.nextInt(4)+1;
-
-                switch(playState) {
-                    case 1:
-                        Log.d("MainActivity_Multi", "SWIPE LEFT");
-                        break;
-                    case 2:
-                        Log.d("MainActivity_Multi", "SWIPE UP");
-                        break;
-                    case 3:
-                        Log.d("MainActivity_Multi", "SWIPE RIGHT");
-                        break;
-                    case 4:
-                        Log.d("MainActivity_Multi", "SWIPE DOWN");
-                        break;
-                    default:
-                        Log.d("MainActivity_Multi", "HOW DOES THIS EVEN HAPPEN");
-                        break;
-                }
-            }
-        };
-
-        timerTaskEnd = new TimerTask(){
-            @Override
-            public void run(){
-                playState = -1;
-                Log.d("MainActivity_Multi", "MISS!");
-                sensorToggled = false;
-                createGesture();
-            }
-
-        };
-
-        timer.schedule(timerTaskLoad, START_WINDOW);
-        timer.schedule(timerTaskEnd, TIMING_WINDOW);
-
-    }
-
     public void createMultiGesture(){
 
         timer = new Timer();
@@ -508,6 +479,7 @@ WIFI BULLSHIT ENDS HERE
                         finishRound("LOSE");
                     }
 
+
                 });
                 Log.d("MainActivity_Multi", "MISS!");
                 connectionsClient.sendPayload(
@@ -515,6 +487,8 @@ WIFI BULLSHIT ENDS HERE
             }
 
         };
+
+
 
         timer.schedule(timerTaskEnd, TIMING_WINDOW);
     }
