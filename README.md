@@ -1,4 +1,4 @@
-# Duol - made in YorkU Hacks
+# Duol - made at YorkU Hacks
 Wolfhacks project developed by:
 - Bill Li [@bill-l1](https://github.com/bill-l1)
 - Raymond Qu [@Reiyer](https://github.com/Reiyer)
