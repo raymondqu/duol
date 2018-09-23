@@ -22,6 +22,8 @@ public class SensorActivity extends Service implements SensorEventListener{
     private Sensor mySensor;
     private SensorManager SM;
 
+    private static int THRESHOLD = 2;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -47,6 +49,7 @@ public class SensorActivity extends Service implements SensorEventListener{
     @Override
     public void onSensorChanged(SensorEvent event) {
         //Log.d("x:", Float.toString(event.values[0]));
+
         if(event.values[0] < -2)
         {
             sendDirection(1);
@@ -63,8 +66,6 @@ public class SensorActivity extends Service implements SensorEventListener{
         {
             sendDirection(4);
         }
-
-
 
 
     }
