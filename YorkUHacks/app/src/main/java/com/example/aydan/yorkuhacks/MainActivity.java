@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import android.Manifest;
+import android.view.View;
 
 import java.util.Random;
 import java.util.Timer;
@@ -58,6 +59,8 @@ public class MainActivity extends Activity{
             };
     private static final int REQUEST_CODE_REQUIRED_PERMISSIONS = 1;
 
+    public boolean startConfirm = false;
+
     public Boolean sensorToggled = false;
 
     public static int START_WINDOW = 1000;
@@ -85,15 +88,23 @@ public class MainActivity extends Activity{
         sensorIntent = new Intent(MainActivity.this, SensorActivity.class);
         startService(sensorIntent);
 
-        createGesture();
+//        createGesture();
+    }
+
+    public void startSingleplayer(View view){
+        startConfirm = true; //allows game to begin
+        createGesture();     //begins chain of gesture generation
+
+        //changing views
+        setContentView(R.layout.game_screen);
+
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int eventaction = event.getAction();
 
-
-        if(!sensorToggled){
+        if(!sensorToggled && startConfirm){
             sensorToggled = true;
         }
         return true;
@@ -106,7 +117,7 @@ public class MainActivity extends Activity{
             // Get extra data included in the Intent
             int result = intent.getIntExtra("result", 1);
             //Log.d("receiver", "Got message: " + Integer.toString(result));
-            if(sensorToggled) {
+            if(sensorToggled && startConfirm) {
                 switch (result) {
                     case 1:
                         Log.d("MainActivity", "LEFT");
