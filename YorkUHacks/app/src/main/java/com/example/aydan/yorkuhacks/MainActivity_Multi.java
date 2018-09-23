@@ -54,10 +54,7 @@ public class MainActivity_Multi extends Activity{
     public String oppdir;
 
     public static boolean STARTING = true; //default true
-    /*
-    wifi bullshit starts here
 
-     */
     private final String codeName = "testuser";
     private static final String[] REQUIRED_PERMISSIONS =
             new String[] {
@@ -89,6 +86,16 @@ public class MainActivity_Multi extends Activity{
     private Button disconnectButton;
 
     public Boolean inverted = false;
+
+    public Boolean sensorToggled = false;
+
+    public static int TIMING_WINDOW = 3000;
+
+    public Timer timer = new Timer();
+
+    public TimerTask timerTaskEnd;
+
+    public Intent sensorIntent;
 
     private final PayloadCallback payloadCallback =
             new PayloadCallback() {
@@ -280,8 +287,7 @@ public class MainActivity_Multi extends Activity{
         setStatusText("placeholder");
 
         Log.d("MainActivity_Multi", "sent payload");
-        // No changing your mind!
-        //setGameChoicesEnabled(false);
+
     }
 
     public void makeMove() {
@@ -290,6 +296,7 @@ public class MainActivity_Multi extends Activity{
 
     private void finishRound(String result) {
         //Log.d("Round Finished", oppdir);
+        v.vibrate(300); //vibrate each new "turn"
         if (result.equals("LOSE") && attacking == false) {
             // Loss!
             Toast toast = Toast.makeText(getApplicationContext(), "You were hit, you now attack", Toast.LENGTH_LONG);
@@ -301,6 +308,7 @@ public class MainActivity_Multi extends Activity{
             Toast toast = Toast.makeText(getApplicationContext(), "Your attack was parried, you now defend", Toast.LENGTH_LONG);
             toast.show();
             attacking = false;
+
             // Loss
 
         } else if(result.equals("WIN") && attacking == false) {
@@ -319,12 +327,10 @@ public class MainActivity_Multi extends Activity{
         if(attacking){
             defenseStatement = findViewById(R.id.defenseStatement);
             defenseStatement.setText("You are attacking.");
-//            setContentView(R.layout.multiplayer_attack);
 
         }else{
             defenseStatement = findViewById(R.id.defenseStatement);
             defenseStatement.setText("You are defending.");
-//            setContentView(R.layout.game_screen);
 
         }
         direction = null;
@@ -336,9 +342,6 @@ public class MainActivity_Multi extends Activity{
 
     }
 
-    private void startNextRound(){
-        if(attacking);
-    }
 
     private void setButtonState(boolean connected) {
         findOpponentButton.setEnabled(true);
@@ -359,26 +362,6 @@ public class MainActivity_Multi extends Activity{
     private void updateScore(int myScore, int opponentScore) {
         scoreText.setText(getString(R.string.game_score, myScore, opponentScore));
     }
-
-/*
-WIFI BULLSHIT ENDS HERE
-
- */
-
-    public Boolean sensorToggled = false;
-
-    public static int START_WINDOW = 1000;
-    public static int TIMING_WINDOW = 3000;
-    public static final Random rand = new Random();
-
-    public Timer timer = new Timer();
-
-    public TimerTask timerTaskLoad;
-    public TimerTask timerTaskEnd;
-
-    public int playState = -1;
-
-    public Intent sensorIntent;
 
 
     @Override
@@ -417,8 +400,6 @@ WIFI BULLSHIT ENDS HERE
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int eventaction = event.getAction();
-
 
         if(!sensorToggled){
             sensorToggled = true;
@@ -432,7 +413,7 @@ WIFI BULLSHIT ENDS HERE
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
             int result = intent.getIntExtra("result", 1);
-            Log.d("inverted",  Boolean.toString(inverted));
+            //Log.d("inverted",  Boolean.toString(inverted));
 
             if(inverted){
                 switch(result){
@@ -505,11 +486,12 @@ WIFI BULLSHIT ENDS HERE
 
     public void createMultiGesture(){
 
+        v.vibrate(100); //vibrate each new "turn"
+
         timer = new Timer();
         timerTaskEnd = new TimerTask(){
             @Override
             public void run(){
-                v.vibrate(100); //vibrate each new "turn"
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -532,7 +514,7 @@ WIFI BULLSHIT ENDS HERE
     }
 
 
-    //commited at 12:20 by Aydan and Billiam
+    //commited at 11:53 am
 
 
 

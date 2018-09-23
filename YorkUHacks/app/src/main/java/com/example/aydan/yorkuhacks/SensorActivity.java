@@ -97,7 +97,6 @@ public class SensorActivity extends Service implements SensorEventListener{
 
 
     }
-    //commited at 3:46
 
     public void sendDirection(int direction){
         if(sendEnabled){
@@ -137,5 +136,5 @@ public class SensorActivity extends Service implements SensorEventListener{
         SM.unregisterListener(this);
 
     }
-    //commited at 5:16 by Aydan
+    //commited at 11:53
 }
