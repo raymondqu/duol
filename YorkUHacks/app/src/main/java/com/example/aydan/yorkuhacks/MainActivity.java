@@ -42,6 +42,8 @@ import com.google.android.gms.nearby.connection.Strategy;
 
 public class MainActivity extends Activity{
     public int result = 0;
+    public String direction;
+    public String oppdir;
     /*
     wifi bullshit starts here
 
@@ -76,12 +78,12 @@ public class MainActivity extends Activity{
             new PayloadCallback() {
                 @Override
                 public void onPayloadReceived(String endpointId, Payload payload) {
-                    defChoice = new int(payload.asBytes(), UTF_8);
+                    oppdir = new String(payload.asBytes(), UTF_8);
                 }
 
                 @Override
                 public void onPayloadTransferUpdate(String endpointId, PayloadTransferUpdate update) {
-                    if (update.getStatus() == Status.SUCCESS && atkChoice != null && defChoice != null) {
+                    if (update.getStatus() == Status.SUCCESS && direction != null && oppdir != null) {
                         finishRound();
                     }
                 }
@@ -193,7 +195,7 @@ public class MainActivity extends Activity{
     }
 
     public void makeMove() {
-        sendGameChoice(result);
+        sendGameChoice(direction);
 
 
     }
@@ -213,9 +215,9 @@ public class MainActivity extends Activity{
     private void resetGame() {
         opponentEndpointId = null;
         opponentName = null;
-        defChoice = null;
+        oppdir = null;
         opponentScore = 0;
-        atkChoice = null;
+        direction = null;
         myScore = 0;
 
         setOpponentName("no_opponent");
@@ -227,7 +229,7 @@ public class MainActivity extends Activity{
     private void sendGameChoice() {
 
         connectionsClient.sendPayload(
-                opponentEndpointId, Payload.fromBytes(Integer.toString(result).getBytes(UTF_8)));
+                opponentEndpointId, Payload.fromBytes(direction.getBytes(UTF_8)));
 
         setStatusText("placeholder");
         // No changing your mind!
@@ -248,8 +250,8 @@ public class MainActivity extends Activity{
 
             opponentScore++;
         }
-        atkChoice = null;
-        defChoice = null;
+        direction = null;
+        oppdir = null;
 
         updateScore(myScore, opponentScore);
 
@@ -332,19 +334,24 @@ WIFI BULLSHIT ENDS HERE
                 switch(result) {
                     case 1:
                         Log.d("MainActivity", "LEFT");
+                        direction = "LEFT";
                         break;
                     case 2:
                         Log.d("MainActivity", "UP");
+                        direction = "UP";
                         break;
                     case 3:
                         Log.d("MainActivity", "RIGHT");
+                        direction = "RIGHT";
                         break;
                     case 4:
                         Log.d("MainActivity", "DOWN");
+                        direction = "DOWN";
                         break;
                     case 0:
                         //fail to swipe in time
                         Log.d("MainActivity", "MISS!");
+                        direction = "MISS!";
                         break;
                 }
                 sensorToggled = false;
@@ -355,7 +362,7 @@ WIFI BULLSHIT ENDS HERE
         }
     }//onActivityResult
 
-    //commited at 10:14 by Aydan
+    //commited at 10:24 by Aydan
 
 
 
