@@ -8,8 +8,8 @@ import android.util.Log;
 
 
 import android.Manifest;
-/*
-IMPORT FOR WIFI BULLSHIT
+
+
 import android.widget.Toast;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import android.content.Context;
@@ -39,7 +39,7 @@ import com.google.android.gms.nearby.connection.PayloadCallback;
 import com.google.android.gms.nearby.connection.PayloadTransferUpdate;
 import com.google.android.gms.nearby.connection.PayloadTransferUpdate.Status;
 import com.google.android.gms.nearby.connection.Strategy;
-*/
+
 
 public class MainActivity extends Activity{
     public int result = 0;
