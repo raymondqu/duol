@@ -1,7 +1,11 @@
 package com.example.aydan.yorkuhacks;
 
+import android.app.Service;
 import android.os.Bundle;
 import android.app.Activity;
+import android.os.IBinder;
+import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.util.Timer;
@@ -13,35 +17,15 @@ import android.hardware.SensorEventListener;
 
 import android.content.Intent;
 
-public class SensorActivity extends Activity implements SensorEventListener{
+public class SensorActivity extends Service implements SensorEventListener{
 
     private Sensor mySensor;
     private SensorManager SM;
 
-    private Intent intent;
-    private int TIMING_WINDOW;
-
-    private Timer timer;
-    private TimerTask timerTask;
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public void onCreate() {
+        super.onCreate();
 
-        intent = getIntent();
-        TIMING_WINDOW = intent.getIntExtra("TIMING_WINDOW", 1000);
-
-        timer = new Timer(true);
-
-        timerTask = new TimerTask(){
-            @Override
-            public void run() {
-                sendDirection(0);
-            }
-        };
-
-        timer.schedule(timerTask, TIMING_WINDOW);
 
         // Create our Sensor Manager
         SM = (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -50,8 +34,9 @@ public class SensorActivity extends Activity implements SensorEventListener{
         mySensor = SM.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 
         // Register sensor Listener
-        super.onResume();
         SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+
     }
 
     @Override
@@ -61,6 +46,7 @@ public class SensorActivity extends Activity implements SensorEventListener{
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+        //Log.d("x:", Float.toString(event.values[0]));
         if(event.values[0] < -2)
         {
             sendDirection(1);
@@ -78,18 +64,33 @@ public class SensorActivity extends Activity implements SensorEventListener{
             sendDirection(4);
         }
 
-        //Log.d("y:", Float.toString(event.values[1]));
+
+
+
     }
     //commited at 3:46
 
     public void sendDirection(int direction){
-        Intent returnIntent = new Intent();
+        Intent returnIntent = new Intent("result");
         returnIntent.putExtra("result", direction);
-        setResult(Activity.RESULT_OK,returnIntent);
-        finish();
 
-        super.onPause();
+        LocalBroadcastManager.getInstance(this).sendBroadcast(returnIntent);
+        //Log.d("help", "help");
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+
+        return null;
+    }
+
+    @Override
+    public void onDestroy() {
+
+        super.onDestroy();
         SM.unregisterListener(this);
+
     }
     //commited at 5:16 by Aydan
 }
