@@ -7,10 +7,10 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/practiceState"
         android:layout_width="wrap_content"
-        android:layout_height="12dp"
-        android:layout_marginBottom="32dp"
+        android:layout_height="31dp"
+        android:layout_marginBottom="50dp"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
@@ -19,4 +19,32 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/defenseStatement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="151dp"
+        android:layout_marginLeft="151dp"
+        android:layout_marginRight="151dp"
+        android:layout_marginStart="151dp"
+        android:layout_marginTop="35dp"
+        android:text="You are defending."
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/defenseDirection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:text="↑"
+        android:textSize="200sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/defenseStatement" />
 </android.support.constraint.ConstraintLayout>

@@ -1,5 +1,7 @@
 package com.example.aydan.yorkuhacks;
 
+import android.os.Vibrator;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,6 +14,8 @@ import android.util.Log;
 
 import android.Manifest;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Random;
 import java.util.Timer;
@@ -60,8 +64,9 @@ public class MainActivity extends Activity{
     private static final int REQUEST_CODE_REQUIRED_PERMISSIONS = 1;
 
     public boolean startConfirm = false;
-
     public Boolean sensorToggled = false;
+
+    TextView updateDefenseText;
 
     public static int START_WINDOW = 1000;
     public static int TIMING_WINDOW = 3000;
@@ -76,6 +81,9 @@ public class MainActivity extends Activity{
 
     public Intent sensorIntent;
 
+    Vibrator v;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +91,8 @@ public class MainActivity extends Activity{
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
                 new IntentFilter("result"));
+
+        v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         sensorToggled = true;
         sensorIntent = new Intent(MainActivity.this, SensorActivity.class);
@@ -93,7 +103,7 @@ public class MainActivity extends Activity{
 
     public void startSingleplayer(View view){
         startConfirm = true; //allows game to begin
-        createGesture();     //begins chain of gesture generation
+        createGesture();     //begins loop of gesture generation
 
         //changing views
         setContentView(R.layout.game_screen);
@@ -108,7 +118,6 @@ public class MainActivity extends Activity{
             sensorToggled = true;
         }
         return true;
-
     }
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
@@ -116,6 +125,7 @@ public class MainActivity extends Activity{
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
             int result = intent.getIntExtra("result", 1);
+
             //Log.d("receiver", "Got message: " + Integer.toString(result));
             if(sensorToggled && startConfirm) {
                 switch (result) {
@@ -137,8 +147,11 @@ public class MainActivity extends Activity{
                 }
                 if(playState == result){
                     Log.d("MainActivity", "HIT!");
+                    Toast.makeText(getApplicationContext(), ("YOU HIT!"), Toast.LENGTH_SHORT).show();
                 }else{
                     Log.d("MainActivity", "WRONG MOTION!");
+                    Toast.makeText(getApplicationContext(), ("YOU MISSED!"), Toast.LENGTH_SHORT).show();
+
                 }
                 sensorToggled = false;
 
@@ -155,7 +168,29 @@ public class MainActivity extends Activity{
         timerTaskLoad = new TimerTask(){
             @Override
             public void run() {
+                v.vibrate(100); //vibrate each new "turn"
                 playState = rand.nextInt(4)+1;
+
+                runOnUiThread(new Runnable() { //required to update the ui
+                    @Override
+                    public void run() {
+                        //stuff that updates ui
+                        //changing text in game screen
+                        updateDefenseText = findViewById(R.id.defenseDirection);
+                        if (playState == 3){
+                            updateDefenseText.setText("→");
+                        }
+                        else if (playState == 2){
+                            updateDefenseText.setText("↑");
+                        }
+                        else if (playState == 1){
+                            updateDefenseText.setText("←");
+                        }
+                        else if (playState == 4){
+                            updateDefenseText.setText("↓");
+                        }
+                    }
+                });
 
                 switch(playState) {
                     case 1:
@@ -174,7 +209,9 @@ public class MainActivity extends Activity{
                         Log.d("MainActivity", "HOW DOES THIS EVEN HAPPEN");
                         break;
                 }
+
             }
+
         };
 
         timerTaskEnd = new TimerTask(){
@@ -192,9 +229,5 @@ public class MainActivity extends Activity{
         timer.schedule(timerTaskEnd, TIMING_WINDOW);
 
     }
-
-    //commited at 5:16 by Aydan
-
-
 
 }
