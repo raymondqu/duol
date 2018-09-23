@@ -5,15 +5,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.MotionEvent;
 import android.content.Intent;
 import android.util.Log;
 
-
 import android.Manifest;
-
-
 
 import android.widget.Toast;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -21,7 +19,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-
 
 import android.content.pm.PackageManager;
 import android.support.annotation.CallSuper;
@@ -48,12 +45,14 @@ import com.google.android.gms.nearby.connection.Strategy;
 
 
 public class MainActivity_Multi extends Activity{
+    Vibrator v;
+
     public Boolean attacking;
     public int result = 0;
     public String direction;
     public String oppdir;
 
-    public static boolean STARTING = true;
+    public static boolean STARTING = true; //default true
     /*
     wifi bullshit starts here
 
@@ -71,7 +70,6 @@ public class MainActivity_Multi extends Activity{
 
     private static final Strategy STRATEGY = Strategy.P2P_STAR;
 
-
     private ConnectionsClient connectionsClient;
     private int myScore;
     private String opponentEndpointId;
@@ -83,7 +81,6 @@ public class MainActivity_Multi extends Activity{
     private TextView scoreText;
     private Button findOpponentButton;
     private Button disconnectButton;
-
 
     private final PayloadCallback payloadCallback =
             new PayloadCallback() {
@@ -240,6 +237,7 @@ public class MainActivity_Multi extends Activity{
         connectionsClient.startAdvertising(
                 codeName, getPackageName(), connectionLifecycleCallback, new AdvertisingOptions(STRATEGY));
     }
+
     private void resetGame() {
         opponentEndpointId = null;
         opponentName = null;
@@ -267,9 +265,7 @@ public class MainActivity_Multi extends Activity{
     }
 
     public void makeMove() {
-
         sendGameChoice();
-
     }
 
     private void finishRound(String result) {
@@ -297,8 +293,6 @@ public class MainActivity_Multi extends Activity{
             toast.show();
             myScore++;
             attacking = false;
-
-
 
         }
         direction = null;
@@ -350,6 +344,8 @@ WIFI BULLSHIT ENDS HERE
 
     public Intent sensorIntent;
 
+    public boolean startMulti = false;
+
     @Override
     protected void onCreate(@Nullable Bundle bundle) {
         super.onCreate(bundle);
@@ -375,6 +371,8 @@ WIFI BULLSHIT ENDS HERE
         sensorToggled = true;
         sensorIntent = new Intent(MainActivity_Multi.this, SensorActivity.class);
         startService(sensorIntent);
+
+        v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE); //initializes vibration
 
         //createGesture();
 
@@ -444,8 +442,6 @@ WIFI BULLSHIT ENDS HERE
                     }
                 }
 
-
-
                 //createGesture();
             }
         }
@@ -504,6 +500,7 @@ WIFI BULLSHIT ENDS HERE
         timerTaskEnd = new TimerTask(){
             @Override
             public void run(){
+                v.vibrate(100); //vibrate each new "turn"
 
                 runOnUiThread(new Runnable() {
                     @Override

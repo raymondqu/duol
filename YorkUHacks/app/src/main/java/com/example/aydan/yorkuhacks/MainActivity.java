@@ -14,43 +14,13 @@ import android.util.Log;
 
 import android.Manifest;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-
-
-/*
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-import com.google.android.gms.nearby.Nearby;
-import com.google.android.gms.nearby.connection.AdvertisingOptions;
-import com.google.android.gms.nearby.connection.ConnectionInfo;
-import com.google.android.gms.nearby.connection.ConnectionLifecycleCallback;
-import com.google.android.gms.nearby.connection.ConnectionResolution;
-import com.google.android.gms.nearby.connection.ConnectionsClient;
-import com.google.android.gms.nearby.connection.DiscoveredEndpointInfo;
-import com.google.android.gms.nearby.connection.DiscoveryOptions;
-import com.google.android.gms.nearby.connection.EndpointDiscoveryCallback;
-import com.google.android.gms.nearby.connection.Payload;
-import com.google.android.gms.nearby.connection.PayloadCallback;
-import com.google.android.gms.nearby.connection.PayloadTransferUpdate;
-import com.google.android.gms.nearby.connection.PayloadTransferUpdate.Status;
-import com.google.android.gms.nearby.connection.Strategy;
-*/
 
 public class MainActivity extends Activity{
     private static final String[] REQUIRED_PERMISSIONS =
@@ -98,10 +68,24 @@ public class MainActivity extends Activity{
         sensorIntent = new Intent(MainActivity.this, SensorActivity.class);
         startService(sensorIntent);
 
+        //STOPS THIS ACTIVITY AND STARTS MULTIPLAYER
+        Button closeButton = (Button) findViewById(R.id.startSecondPlayer);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                //start multiplayer
+                startActivity(new Intent(MainActivity.this, MainActivity_Multi.class));
+
+                //close this activity
+                finish();
+            }
+        });
+
 //        createGesture();
     }
 
-    //triggered by singleplayer button
+    //start singleplayer (triggered by button)
     public void startSingleplayer(View view){
         startConfirm = true; //allows game to begin
         createGesture();     //begins loop of gesture generation
