@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">YorkUHacks</string>
+    <string name="app_name">Duol</string>
+    <string name="main_menu_title">Welcome to Duol!</string>
+    <string name="connect_to_bluetooth">Connect to second player</string>
+    <string name="main_menu_singleplayer">Play singleplayer</string>
 </resources>
