@@ -140,8 +140,7 @@ public class MainActivity extends Activity{
                         setOpponentName(opponentName);
                         setStatusText("status_connected");
                         setButtonState(true);
-                        Toast toast = Toast.makeText(getApplicationContext(), Boolean.toString(attacking), Toast.LENGTH_LONG);
-                        toast.show();
+
                     } else {
                         Log.i("MainActivity", "onConnectionResult: connection failed");
                     }
@@ -219,7 +218,8 @@ public class MainActivity extends Activity{
     /** Starts looking for other players using Nearby Connections. */
     private void startDiscovery() {
         attacking = false;
-
+        Toast toast = Toast.makeText(getApplicationContext(), "You are defending", Toast.LENGTH_LONG);
+        toast.show();
 
         // Note: Discovery may fail. To keep this demo simple, we don't handle failures.
         connectionsClient.startDiscovery(
@@ -228,7 +228,8 @@ public class MainActivity extends Activity{
 
     private void startAdvertising() {
         attacking = true;
-        
+        Toast toast = Toast.makeText(getApplicationContext(), "You attac", Toast.LENGTH_LONG);
+        toast.show();
         // Note: Advertising may fail. To keep this demo simple, we don't handle failures.
         connectionsClient.startAdvertising(
                 codeName, getPackageName(), connectionLifecycleCallback, new AdvertisingOptions(STRATEGY));
