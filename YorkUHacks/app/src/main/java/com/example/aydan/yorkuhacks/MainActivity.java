@@ -59,7 +59,7 @@ public class MainActivity extends Activity{
     public String direction;
     public String oppdir;
 
-    public static boolean STARTING = false;
+    public static boolean STARTING = true;
     /*
     wifi bullshit starts here
 
@@ -278,25 +278,25 @@ public class MainActivity extends Activity{
 
     private void finishRound(String result) {
         //Log.d("Round Finished", oppdir);
-        if (result == "LOSE" && attacking == false) {
+        if (result.equals("LOSE") && attacking == false) {
             // Loss!
             Toast toast = Toast.makeText(getApplicationContext(), "You were hit, you now attack", Toast.LENGTH_LONG);
             toast.show();
             opponentScore++;
             attacking = true;
 
-        } else if(result == "LOSE" && attacking == true) {
+        } else if(result.equals("LOSE") && attacking == true) {
             Toast toast = Toast.makeText(getApplicationContext(), "Your attack was parried, you now defend", Toast.LENGTH_LONG);
             toast.show();
             attacking = false;
             // Loss
 
-        } else if(result == "WIN" && attacking == false) {
+        } else if(result.equals("WIN") && attacking == false) {
             Toast toast = Toast.makeText(getApplicationContext(), "You parried an attack, you now attack", Toast.LENGTH_LONG);
             toast.show();
             attacking = true;
 
-        } else if(result == "WIN" && attacking == true){
+        } else if(result.equals("WIN") && attacking == true){
             Toast toast = Toast.makeText(getApplicationContext(), "You landed an attack, you now defend", Toast.LENGTH_LONG);
             toast.show();
             myScore++;
@@ -426,15 +426,22 @@ WIFI BULLSHIT ENDS HERE
                         direction = "MISS!";
                         break;
                 }
-                if(playState == result){
-                    Log.d("MainActivity", "HIT!");
-                }else{
-                    Log.d("MainActivity", "WRONG MOTION!");
-                }
-                sensorToggled = false;
 
-                connectionsClient.sendPayload(
+                sensorToggled = false;
+                timer.cancel();
+                if(attacking == false){
+                    if(direction.equals(oppdir)) {
+                        connectionsClient.sendPayload(
+                                opponentEndpointId, Payload.fromBytes("WIN".getBytes(UTF_8)));
+                    }else {
+                        connectionsClient.sendPayload(
+                                opponentEndpointId, Payload.fromBytes("LOSE".getBytes(UTF_8)));
+                    }
+                }else{
+                    connectionsClient.sendPayload(
                             opponentEndpointId, Payload.fromBytes(direction.getBytes(UTF_8)));
+                }
+
 
 
                 //createGesture();
@@ -448,6 +455,7 @@ WIFI BULLSHIT ENDS HERE
         timer = new Timer();
 
         timerTaskLoad = new TimerTask(){
+
             @Override
             public void run() {
                 playState = rand.nextInt(4)+1;
@@ -490,6 +498,7 @@ WIFI BULLSHIT ENDS HERE
 
     public void createMultiGesture(){
 
+        timer = new Timer();
         timerTaskEnd = new TimerTask(){
             @Override
             public void run(){
