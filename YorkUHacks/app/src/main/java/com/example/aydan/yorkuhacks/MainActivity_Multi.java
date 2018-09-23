@@ -432,7 +432,7 @@ WIFI BULLSHIT ENDS HERE
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
             int result = intent.getIntExtra("result", 1);
-            //Log.d("receiver", "Got message: " + Integer.toString(result));
+            Log.d("inverted",  Boolean.toString(inverted));
 
             if(inverted){
                 switch(result){
