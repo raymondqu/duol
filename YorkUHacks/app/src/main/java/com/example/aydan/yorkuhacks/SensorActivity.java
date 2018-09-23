@@ -23,11 +23,16 @@ public class SensorActivity extends Service implements SensorEventListener{
     private SensorManager SM;
 
     private static int THRESHOLD = 2;
+    private static int COOLDOWN = 100;
+
+    private Boolean sendEnabled = true;
+
+    private Timer timer;
+    private TimerTask timerTaskCD;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
 
         // Create our Sensor Manager
         SM = (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -38,7 +43,7 @@ public class SensorActivity extends Service implements SensorEventListener{
         // Register sensor Listener
         SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
 
-
+        timer = new Timer();
     }
 
     @Override
@@ -50,19 +55,19 @@ public class SensorActivity extends Service implements SensorEventListener{
     public void onSensorChanged(SensorEvent event) {
         //Log.d("x:", Float.toString(event.values[0]));
 
-        if(event.values[0] < -2)
+        if(event.values[0] < -THRESHOLD)
         {
             sendDirection(1);
         }
-        if(event.values[2] > 2)
+        if(event.values[2] > THRESHOLD)
         {
             sendDirection(2);
         }
-        if(event.values[0] > 2)
+        if(event.values[0] > THRESHOLD)
         {
             sendDirection(3);
         }
-        if(event.values[2] < -2)
+        if(event.values[2] < -THRESHOLD)
         {
             sendDirection(4);
         }
@@ -72,11 +77,27 @@ public class SensorActivity extends Service implements SensorEventListener{
     //commited at 3:46
 
     public void sendDirection(int direction){
-        Intent returnIntent = new Intent("result");
-        returnIntent.putExtra("result", direction);
+        if(sendEnabled){
+            Intent returnIntent = new Intent("result");
+            returnIntent.putExtra("result", direction);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(returnIntent);
+            coolDown();
+        }
 
-        LocalBroadcastManager.getInstance(this).sendBroadcast(returnIntent);
         //Log.d("help", "help");
+    }
+
+    public void coolDown(){
+        sendEnabled = false;
+        timerTaskCD = new TimerTask() {
+
+            @Override
+            public void run() {
+                sendEnabled = true;
+            }
+        };
+
+        timer.schedule(timerTaskCD, COOLDOWN);
     }
 
     @Nullable
