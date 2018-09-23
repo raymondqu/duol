@@ -97,8 +97,10 @@ public class MainActivity extends Activity{
                 public void onPayloadReceived(String endpointId, Payload payload) {
                     if(attacking == false){
                         Log.d("MainActivity", "got payload");
-                        oppdir = new String(payload.asBytes(), UTF_8);
-                        createMultiGesture();
+                        if(oppdir == null){
+                            oppdir = new String(payload.asBytes(), UTF_8);
+                            createMultiGesture();
+                        }
                     }else{
                         String result = new String(payload.asBytes(), UTF_8);
                         finishRound(result);
@@ -429,17 +431,19 @@ WIFI BULLSHIT ENDS HERE
 
                 sensorToggled = false;
                 timer.cancel();
-                if(attacking == false){
-                    if(direction.equals(oppdir)) {
+                if(attacking != null) {
+                    if (attacking == false) {
+                        if (direction.equals(oppdir)) {
+                            connectionsClient.sendPayload(
+                                    opponentEndpointId, Payload.fromBytes("WIN".getBytes(UTF_8)));
+                        } else {
+                            connectionsClient.sendPayload(
+                                    opponentEndpointId, Payload.fromBytes("LOSE".getBytes(UTF_8)));
+                        }
+                    } else {
                         connectionsClient.sendPayload(
-                                opponentEndpointId, Payload.fromBytes("WIN".getBytes(UTF_8)));
-                    }else {
-                        connectionsClient.sendPayload(
-                                opponentEndpointId, Payload.fromBytes("LOSE".getBytes(UTF_8)));
+                                opponentEndpointId, Payload.fromBytes(direction.getBytes(UTF_8)));
                     }
-                }else{
-                    connectionsClient.sendPayload(
-                            opponentEndpointId, Payload.fromBytes(direction.getBytes(UTF_8)));
                 }
 
 
