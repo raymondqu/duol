@@ -115,7 +115,7 @@ public class MainActivity extends Activity{
 
                         opponentEndpointId = endpointId;
                         setOpponentName(opponentName);
-                        setStatusText(getString(R.string.status_connected));
+                        setStatusText("status_connected");
                         setButtonState(true);
                     } else {
                         Log.i("MainActivity", "onConnectionResult: connection failed");
@@ -168,7 +168,7 @@ public class MainActivity extends Activity{
 
         for (int grantResult : grantResults) {
             if (grantResult == PackageManager.PERMISSION_DENIED) {
-                Toast.makeText(this, R.string.error_missing_permissions, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "error missing permissions", Toast.LENGTH_LONG).show();
                 finish();
                 return;
             }
@@ -180,7 +180,7 @@ public class MainActivity extends Activity{
     public void findOpponent(View view) {
         startAdvertising();
         startDiscovery();
-        setStatusText(getString(R.string.status_searching));
+        setStatusText(getString("Searching..."));
         findOpponentButton.setEnabled(false);
     }
 
@@ -216,8 +216,8 @@ public class MainActivity extends Activity{
         atkChoice = null;
         myScore = 0;
 
-        setOpponentName("no_opponent"));
-        setStatusText("status_disconnected"));
+        setOpponentName("no_opponent");
+        setStatusText("status_disconnected");
         updateScore(myScore, opponentScore);
         setButtonState(false);
     }
@@ -236,7 +236,7 @@ public class MainActivity extends Activity{
             // Win!
             Toast toast = Toast.makeText(getApplicationContext(), "Attacker Wins", Toast.LENGTH_LONG);
             toast.show();
-            myScore++
+            myScore++;
 
 
         } else {
@@ -353,7 +353,7 @@ WIFI BULLSHIT ENDS HERE
         }
     }//onActivityResult
 
-    //commited at 8:20 by Aydan
+    //commited at 8:41 by Aydan
 
 
 
