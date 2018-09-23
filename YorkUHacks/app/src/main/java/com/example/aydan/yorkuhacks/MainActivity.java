@@ -1,12 +1,22 @@
 package com.example.aydan.yorkuhacks;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.MotionEvent;
 import android.content.Intent;
 import android.util.Log;
 
 import android.Manifest;
+
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
+
 /*
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -49,37 +59,55 @@ public class MainActivity extends Activity{
     private static final int REQUEST_CODE_REQUIRED_PERMISSIONS = 1;
 
     public Boolean sensorToggled = false;
-    public static int TIMING_WINDOW = 2000;
+
+    public static int START_WINDOW = 1000;
+    public static int TIMING_WINDOW = 3000;
+    public static final Random rand = new Random();
+
+    public Timer timer = new Timer();
+
+    public TimerTask timerTaskLoad;
+    public TimerTask timerTaskEnd;
+
+    public int playState = -1;
+
+    public Intent sensorIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("result"));
+
+        sensorToggled = true;
+        sensorIntent = new Intent(MainActivity.this, SensorActivity.class);
+        startService(sensorIntent);
+
+        createGesture();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int eventaction = event.getAction();
 
+
         if(!sensorToggled){
             sensorToggled = true;
-            Intent i=new Intent(this, SensorActivity.class);
-            i.putExtra("TIMING_WINDOW", TIMING_WINDOW);
-            startActivityForResult(i, 1);
         }
-
         return true;
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == 1) {
-            if(resultCode == Activity.RESULT_OK){
-                int result=data.getIntExtra("result", 1);
-
-                switch(result) {
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            int result = intent.getIntExtra("result", 1);
+            //Log.d("receiver", "Got message: " + Integer.toString(result));
+            if(sensorToggled) {
+                switch (result) {
                     case 1:
                         Log.d("MainActivity", "LEFT");
                         break;
@@ -93,17 +121,66 @@ public class MainActivity extends Activity{
                         Log.d("MainActivity", "DOWN");
                         break;
                     case 0:
-                        //fail to swipe in time
-                        Log.d("MainActivity", "MISS!");
+                        Log.d("MainActivity", "RETURN");
                         break;
                 }
+                if(playState == result){
+                    Log.d("MainActivity", "HIT!");
+                }else{
+                    Log.d("MainActivity", "WRONG MOTION!");
+                }
                 sensorToggled = false;
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
+
+                createGesture();
             }
         }
-    }//onActivityResult
+    };
+
+    public void createGesture(){
+        playState = -1;
+        timer.cancel();
+        timer = new Timer();
+
+        timerTaskLoad = new TimerTask(){
+            @Override
+            public void run() {
+                playState = rand.nextInt(4)+1;
+
+                switch(playState) {
+                    case 1:
+                        Log.d("MainActivity", "SWIPE LEFT");
+                        break;
+                    case 2:
+                        Log.d("MainActivity", "SWIPE UP");
+                        break;
+                    case 3:
+                        Log.d("MainActivity", "SWIPE RIGHT");
+                        break;
+                    case 4:
+                        Log.d("MainActivity", "SWIPE DOWN");
+                        break;
+                    default:
+                        Log.d("MainActivity", "HOW DOES THIS EVEN HAPPEN");
+                        break;
+                }
+            }
+        };
+
+        timerTaskEnd = new TimerTask(){
+            @Override
+            public void run(){
+                playState = -1;
+                Log.d("MainActivity", "MISS!");
+                sensorToggled = false;
+                createGesture();
+            }
+
+        };
+
+        timer.schedule(timerTaskLoad, START_WINDOW);
+        timer.schedule(timerTaskEnd, TIMING_WINDOW);
+
+    }
 
     //commited at 5:16 by Aydan
 
