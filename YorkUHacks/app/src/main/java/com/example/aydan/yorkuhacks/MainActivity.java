@@ -95,17 +95,21 @@ public class MainActivity extends Activity{
             new PayloadCallback() {
                 @Override
                 public void onPayloadReceived(String endpointId, Payload payload) {
-                    Log.d("MainActivity", "got payload");
-                    oppdir = new String(payload.asBytes(), UTF_8);
-                    if(oppdir == "UP"){
-                        //myScore++;
+                    if(attacking == false){
+                        Log.d("MainActivity", "got payload");
+                        oppdir = new String(payload.asBytes(), UTF_8);
+                        createMultiGesture();
+                    }else{
+                        String result = new String(payload.asBytes(), UTF_8);
+                        finishRound(result);
                     }
+
                 }
 
                 @Override
                 public void onPayloadTransferUpdate(String endpointId, PayloadTransferUpdate update) {
                     if (update.getStatus() == Status.SUCCESS && direction != null && oppdir != null) {
-                        finishRound();
+                        //finishRound();
                     }
                 }
             };
@@ -272,30 +276,30 @@ public class MainActivity extends Activity{
 
     }
 
-    private void finishRound() {
-        if (direction.equals(oppdir) && attacking == false) {
+    private void finishRound(String result) {
+        Log.d("Round Finished", oppdir);
+        if (result == "LOSE" && attacking == false) {
             // Loss!
             Toast toast = Toast.makeText(getApplicationContext(), "You were hit, you now attack", Toast.LENGTH_LONG);
             toast.show();
             opponentScore++;
             attacking = true;
 
-        } else if(direction.equals(oppdir) && attacking == true) {
+        } else if(result == "LOSE" && attacking == true) {
             Toast toast = Toast.makeText(getApplicationContext(), "Your attack was parried, you now defend", Toast.LENGTH_LONG);
             toast.show();
             attacking = false;
             // Loss
 
-        } else if(direction.equals(oppdir) && attacking == false) {
+        } else if(result == "WIN" && attacking == false) {
             Toast toast = Toast.makeText(getApplicationContext(), "You parried an attack, you now attack", Toast.LENGTH_LONG);
             toast.show();
             attacking = true;
 
-        } else{
+        } else if(result == "WIN" && attacking == true){
             Toast toast = Toast.makeText(getApplicationContext(), "You landed an attack, you now defend", Toast.LENGTH_LONG);
             toast.show();
             myScore++;
-
             attacking = false;
 
 
@@ -481,6 +485,23 @@ WIFI BULLSHIT ENDS HERE
         timer.schedule(timerTaskEnd, TIMING_WINDOW);
 
     }
+
+    public void createMultiGesture(){
+
+        timerTaskEnd = new TimerTask(){
+            @Override
+            public void run(){
+                Log.d("MainActivity", "MISS!");
+                finishRound("LOSE");
+                connectionsClient.sendPayload(
+                        opponentEndpointId, Payload.fromBytes("WIN".getBytes(UTF_8)));
+            }
+
+        };
+
+        timer.schedule(timerTaskEnd, TIMING_WINDOW);
+    }
+
 
     //commited at 12:20 by Aydan and Billiam
 
