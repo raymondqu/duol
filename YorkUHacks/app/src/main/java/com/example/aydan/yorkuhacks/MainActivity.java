@@ -98,7 +98,7 @@ public class MainActivity extends Activity{
                     Log.d("MainActivity", "got payload");
                     oppdir = new String(payload.asBytes(), UTF_8);
                     if(oppdir == "UP"){
-                        myScore++;
+                        //myScore++;
                     }
                 }
 
@@ -143,7 +143,6 @@ public class MainActivity extends Activity{
                             attacking = false;
                             toast.show();
                         }
-
 
                         connectionsClient.stopDiscovery();
                         connectionsClient.stopAdvertising();
@@ -276,33 +275,28 @@ public class MainActivity extends Activity{
     private void finishRound() {
         if (direction.equals(oppdir) && attacking == false) {
             // Loss!
-            Toast toast = Toast.makeText(getApplicationContext(), "You were hit", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(getApplicationContext(), "You were hit, you now attack", Toast.LENGTH_LONG);
             toast.show();
             opponentScore++;
-
+            attacking = true;
 
         } else if(direction.equals(oppdir) && attacking == true) {
-            Toast toast = Toast.makeText(getApplicationContext(), "Your attack was parried", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(getApplicationContext(), "Your attack was parried, you now defend", Toast.LENGTH_LONG);
             toast.show();
             attacking = false;
             // Loss
 
-
-        }
-
-        else if(direction.equals(oppdir) && attacking == false) {
-            Toast toast = Toast.makeText(getApplicationContext(), "You parried an attack", Toast.LENGTH_LONG);
+        } else if(direction.equals(oppdir) && attacking == false) {
+            Toast toast = Toast.makeText(getApplicationContext(), "You parried an attack, you now attack", Toast.LENGTH_LONG);
             toast.show();
             attacking = true;
 
-
-
-        }
-
-        else{
-            Toast toast = Toast.makeText(getApplicationContext(), "Your landed an attack", Toast.LENGTH_LONG);
+        } else{
+            Toast toast = Toast.makeText(getApplicationContext(), "You landed an attack, you now defend", Toast.LENGTH_LONG);
             toast.show();
             myScore++;
+
+            attacking = false;
 
 
 
