@@ -316,7 +316,7 @@ WIFI BULLSHIT ENDS HERE
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-    /*
+
 
         opponentText = findViewById(R.id.opponent_name);
     statusText = findViewById(R.id.status);
@@ -328,7 +328,7 @@ WIFI BULLSHIT ENDS HERE
     connectionsClient = Nearby.getConnectionsClient(this);
 
     resetGame();
-*/
+
 
 
     }
