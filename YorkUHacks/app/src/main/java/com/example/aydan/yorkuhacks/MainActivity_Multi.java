@@ -23,17 +23,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-
-
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -53,7 +47,7 @@ import com.google.android.gms.nearby.connection.PayloadTransferUpdate.Status;
 import com.google.android.gms.nearby.connection.Strategy;
 
 
-public class MainActivity extends Activity{
+public class MainActivity_Multi extends Activity{
     public Boolean attacking;
     public int result = 0;
     public String direction;
@@ -96,7 +90,7 @@ public class MainActivity extends Activity{
                 @Override
                 public void onPayloadReceived(String endpointId, Payload payload) {
                     if(attacking == false){
-                        Log.d("MainActivity", "got payload");
+                        Log.d("MainActivity_Multi", "got payload");
                         if(oppdir == null){
                             oppdir = new String(payload.asBytes(), UTF_8);
                             createMultiGesture();
@@ -119,7 +113,7 @@ public class MainActivity extends Activity{
             new EndpointDiscoveryCallback() {
                 @Override
                 public void onEndpointFound(String endpointId, DiscoveredEndpointInfo info) {
-                    Log.i("MainActivity", "onEndpointFound: endpoint found, connecting");
+                    Log.i("MainActivity_Multi", "onEndpointFound: endpoint found, connecting");
                     connectionsClient.requestConnection(codeName, endpointId, connectionLifecycleCallback);
                 }
 
@@ -131,7 +125,7 @@ public class MainActivity extends Activity{
             new ConnectionLifecycleCallback() {
                 @Override
                 public void onConnectionInitiated(String endpointId, ConnectionInfo connectionInfo) {
-                    Log.i("MainActivity", "onConnectionInitiated: accepting connection");
+                    Log.i("MainActivity_Multi", "onConnectionInitiated: accepting connection");
                     connectionsClient.acceptConnection(endpointId, payloadCallback);
                     opponentName = connectionInfo.getEndpointName();
                 }
@@ -139,7 +133,7 @@ public class MainActivity extends Activity{
                 @Override
                 public void onConnectionResult(String endpointId, ConnectionResolution result) {
                     if (result.getStatus().isSuccess()) {
-                        Log.i("MainActivity", "onConnectionResult: connection successful");
+                        Log.i("MainActivity_Multi", "onConnectionResult: connection successful");
                         if(STARTING){
                             Toast toast = Toast.makeText(getApplicationContext(), "You attac", Toast.LENGTH_LONG);
                             attacking = true;
@@ -159,13 +153,13 @@ public class MainActivity extends Activity{
                         setButtonState(true);
 
                     } else {
-                        Log.i("MainActivity", "onConnectionResult: connection failed");
+                        Log.i("MainActivity_Multi", "onConnectionResult: connection failed");
                     }
                 }
 
                 @Override
                 public void onDisconnected(String endpointId) {
-                    Log.i("MainActivity", "onDisconnected: disconnected from the opponent");
+                    Log.i("MainActivity_Multi", "onDisconnected: disconnected from the opponent");
                     resetGame();
                 }
             };
@@ -267,7 +261,7 @@ public class MainActivity extends Activity{
 
         setStatusText("placeholder");
 
-        Log.d("MainActivity", "sent payload");
+        Log.d("MainActivity_Multi", "sent payload");
         // No changing your mind!
         //setGameChoicesEnabled(false);
     }
@@ -379,7 +373,7 @@ WIFI BULLSHIT ENDS HERE
                 new IntentFilter("result"));
 
         sensorToggled = true;
-        sensorIntent = new Intent(MainActivity.this, SensorActivity.class);
+        sensorIntent = new Intent(MainActivity_Multi.this, SensorActivity.class);
         startService(sensorIntent);
 
         //createGesture();
@@ -407,24 +401,24 @@ WIFI BULLSHIT ENDS HERE
             if(sensorToggled) {
                 switch (result) {
                     case 1:
-                        Log.d("MainActivity", "LEFT");
+                        Log.d("MainActivity_Multi", "LEFT");
                         direction = "LEFT";
                         break;
                     case 2:
-                        Log.d("MainActivity", "UP");
+                        Log.d("MainActivity_Multi", "UP");
                         direction = "UP";
                         break;
                     case 3:
-                        Log.d("MainActivity", "RIGHT");
+                        Log.d("MainActivity_Multi", "RIGHT");
                         direction = "RIGHT";
                         break;
                     case 4:
-                        Log.d("MainActivity", "DOWN");
+                        Log.d("MainActivity_Multi", "DOWN");
                         direction = "DOWN";
                         break;
                     case 0:
                         //fail to swipe in time
-                        Log.d("MainActivity", "MISS!");
+                        Log.d("MainActivity_Multi", "MISS!");
                         direction = "MISS!";
                         break;
                 }
@@ -470,19 +464,19 @@ WIFI BULLSHIT ENDS HERE
 
                 switch(playState) {
                     case 1:
-                        Log.d("MainActivity", "SWIPE LEFT");
+                        Log.d("MainActivity_Multi", "SWIPE LEFT");
                         break;
                     case 2:
-                        Log.d("MainActivity", "SWIPE UP");
+                        Log.d("MainActivity_Multi", "SWIPE UP");
                         break;
                     case 3:
-                        Log.d("MainActivity", "SWIPE RIGHT");
+                        Log.d("MainActivity_Multi", "SWIPE RIGHT");
                         break;
                     case 4:
-                        Log.d("MainActivity", "SWIPE DOWN");
+                        Log.d("MainActivity_Multi", "SWIPE DOWN");
                         break;
                     default:
-                        Log.d("MainActivity", "HOW DOES THIS EVEN HAPPEN");
+                        Log.d("MainActivity_Multi", "HOW DOES THIS EVEN HAPPEN");
                         break;
                 }
             }
@@ -492,7 +486,7 @@ WIFI BULLSHIT ENDS HERE
             @Override
             public void run(){
                 playState = -1;
-                Log.d("MainActivity", "MISS!");
+                Log.d("MainActivity_Multi", "MISS!");
                 sensorToggled = false;
                 createGesture();
             }
@@ -518,7 +512,7 @@ WIFI BULLSHIT ENDS HERE
                     }
 
                 });
-                Log.d("MainActivity", "MISS!");
+                Log.d("MainActivity_Multi", "MISS!");
                 connectionsClient.sendPayload(
                         opponentEndpointId, Payload.fromBytes("WIN".getBytes(UTF_8)));
             }
