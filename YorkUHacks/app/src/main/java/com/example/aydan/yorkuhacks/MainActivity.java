@@ -92,7 +92,7 @@ public class MainActivity extends Activity{
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
                 new IntentFilter("result"));
 
-        v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE); //initializes vibration
 
         sensorToggled = true;
         sensorIntent = new Intent(MainActivity.this, SensorActivity.class);
@@ -101,13 +101,13 @@ public class MainActivity extends Activity{
 //        createGesture();
     }
 
+    //triggered by singleplayer button
     public void startSingleplayer(View view){
         startConfirm = true; //allows game to begin
         createGesture();     //begins loop of gesture generation
 
         //changing views
         setContentView(R.layout.game_screen);
-
     }
 
     @Override
@@ -145,12 +145,14 @@ public class MainActivity extends Activity{
                         Log.d("MainActivity", "RETURN");
                         break;
                 }
+
+                //displays results to player
                 if(playState == result){
                     Log.d("MainActivity", "HIT!");
-                    Toast.makeText(getApplicationContext(), ("YOU HIT!"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), ("YOU PARRIED!"), Toast.LENGTH_SHORT).show();
                 }else{
                     Log.d("MainActivity", "WRONG MOTION!");
-                    Toast.makeText(getApplicationContext(), ("YOU MISSED!"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), ("YOU WERE HIT!"), Toast.LENGTH_SHORT).show();
 
                 }
                 sensorToggled = false;

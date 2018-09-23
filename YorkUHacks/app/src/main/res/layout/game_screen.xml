@@ -41,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
         android:text="↑"
         android:textSize="200sp"
         app:layout_constraintBottom_toBottomOf="parent"
