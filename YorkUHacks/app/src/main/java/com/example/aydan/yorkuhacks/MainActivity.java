@@ -1,18 +1,16 @@
 package com.example.aydan.yorkuhacks;
 
-import android.os.Vibrator;
-
+import android.Manifest;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.content.LocalBroadcastManager;
-import android.view.MotionEvent;
-import android.content.Intent;
 import android.util.Log;
-
-import android.Manifest;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -36,22 +34,26 @@ public class MainActivity extends Activity{
     public boolean startConfirm = false;
     public Boolean sensorToggled = false;
 
-    TextView updateDefenseText;
+    public TextView updateDefenseText;
+    public TextView defenseStatement;
 
     public static int START_WINDOW = 1000;
     public static int TIMING_WINDOW = 3000;
+    public static int RESOLVE_WINDOW = 5000;
     public static final Random rand = new Random();
 
     public Timer timer = new Timer();
 
     public TimerTask timerTaskLoad;
     public TimerTask timerTaskEnd;
+    public TimerTask timerTaskResolve;
 
     public int playState = -1;
 
     public Intent sensorIntent;
 
     Vibrator v;
+
 
 
     @Override
@@ -87,11 +89,12 @@ public class MainActivity extends Activity{
 
     //start singleplayer (triggered by button)
     public void startSingleplayer(View view){
-        startConfirm = true; //allows game to begin
-        createGesture();     //begins loop of gesture generation
 
         //changing views
         setContentView(R.layout.game_screen);
+
+        startConfirm = true; //allows game to begin
+        createGesture();     //begins loop of gesture generation
     }
 
     @Override
@@ -130,13 +133,19 @@ public class MainActivity extends Activity{
                         break;
                 }
 
+                defenseStatement = findViewById(R.id.defenseStatement);
+
                 //displays results to player
                 if(playState == result){
                     Log.d("MainActivity", "HIT!");
+                    defenseStatement.setText("Parried!");
                     Toast.makeText(getApplicationContext(), ("YOU PARRIED!"), Toast.LENGTH_SHORT).show();
+
                 }else{
                     Log.d("MainActivity", "WRONG MOTION!");
+                    defenseStatement.setText("Missed!");
                     Toast.makeText(getApplicationContext(), ("YOU WERE HIT!"), Toast.LENGTH_SHORT).show();
+
 
                 }
                 sensorToggled = false;
@@ -150,6 +159,7 @@ public class MainActivity extends Activity{
         playState = -1;
         timer.cancel();
         timer = new Timer();
+
 
         timerTaskLoad = new TimerTask(){
             @Override
@@ -175,6 +185,11 @@ public class MainActivity extends Activity{
                         else if (playState == 4){
                             updateDefenseText.setText("↓");
                         }
+                        defenseStatement = findViewById(R.id.defenseStatement);
+                        defenseStatement.setText("You are defending.");
+
+
+
                     }
                 });
 
@@ -205,7 +220,36 @@ public class MainActivity extends Activity{
             public void run(){
                 playState = -1;
                 Log.d("MainActivity", "MISS!");
+
+                runOnUiThread(new Runnable() { //required to update the ui
+                    @Override
+                    public void run() {
+                        defenseStatement = findViewById(R.id.defenseStatement);
+                        defenseStatement.setText("You were hit!");
+
+                    }
+                });
+
                 sensorToggled = false;
+            }
+
+        };
+
+        timerTaskResolve = new TimerTask(){
+            @Override
+            public void run(){
+                Log.d("MainActivity", "RESOLVING TO NEXT GESTURE");
+
+                runOnUiThread(new Runnable() { //required to update the ui
+                    @Override
+                    public void run() {
+                        defenseStatement = findViewById(R.id.defenseStatement);
+                        defenseStatement.setText("Waiting...");
+
+
+                    }
+                });
+
                 createGesture();
             }
 
@@ -213,6 +257,7 @@ public class MainActivity extends Activity{
 
         timer.schedule(timerTaskLoad, START_WINDOW);
         timer.schedule(timerTaskEnd, TIMING_WINDOW);
+        timer.schedule(timerTaskResolve, RESOLVE_WINDOW);
 
     }
 
