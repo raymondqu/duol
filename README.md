@@ -1,5 +1,7 @@
 # Duol - made at YorkU Hacks
-Wolfhacks project developed by:
+Duol is a face-to-face, active multiplayer game where you can challenge a friend to a fast-paced sword fight.
+
+Project developed by:
 - Bill Li [@bill-l1](https://github.com/bill-l1)
 - Raymond Qu [@Reiyer](https://github.com/Reiyer)
 - Aydan Jiwani [@aydanjiwani](https://github.com/aydanjiwani)
