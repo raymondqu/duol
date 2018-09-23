@@ -13,6 +13,7 @@ import android.util.Log;
 
 import android.Manifest;
 
+import android.widget.Switch;
 import android.widget.Toast;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -72,6 +73,9 @@ public class MainActivity_Multi extends Activity{
 
     public TextView defenseStatement;
 
+    public Switch startSwitch;
+    public Switch invertSwitch;
+
     private ConnectionsClient connectionsClient;
     private int myScore;
     private String opponentEndpointId;
@@ -83,6 +87,8 @@ public class MainActivity_Multi extends Activity{
     private TextView scoreText;
     private Button findOpponentButton;
     private Button disconnectButton;
+
+    public Boolean inverted = false;
 
     private final PayloadCallback payloadCallback =
             new PayloadCallback() {
@@ -113,6 +119,7 @@ public class MainActivity_Multi extends Activity{
                 @Override
                 public void onEndpointFound(String endpointId, DiscoveredEndpointInfo info) {
                     Log.i("MainActivity_Multi", "onEndpointFound: endpoint found, connecting");
+                    setStatusText("Connecting...");
                     connectionsClient.requestConnection(codeName, endpointId, connectionLifecycleCallback);
                 }
 
@@ -133,7 +140,13 @@ public class MainActivity_Multi extends Activity{
                 public void onConnectionResult(String endpointId, ConnectionResolution result) {
                     if (result.getStatus().isSuccess()) {
                         Log.i("MainActivity_Multi", "onConnectionResult: connection successful");
-                        if(STARTING){
+
+                        startSwitch = findViewById(R.id.startSwitch);
+                        invertSwitch = findViewById(R.id.invertSwitch);
+
+                        inverted = invertSwitch.isChecked();
+
+                        if(startSwitch.isChecked()){
                             Toast toast = Toast.makeText(getApplicationContext(), "You attack", Toast.LENGTH_LONG);
                             attacking = true;
                             toast.show();
@@ -383,6 +396,8 @@ WIFI BULLSHIT ENDS HERE
         TextView nameView = findViewById(R.id.name);
         nameView.setText(getString(R.string.codename, codeName));
 
+
+
         connectionsClient = Nearby.getConnectionsClient(this);
 
         resetGame();
@@ -418,6 +433,24 @@ WIFI BULLSHIT ENDS HERE
             // Get extra data included in the Intent
             int result = intent.getIntExtra("result", 1);
             //Log.d("receiver", "Got message: " + Integer.toString(result));
+
+            if(inverted){
+                switch(result){
+                    case 1:
+                        result = 3;
+                        break;
+                    case 2:
+                        result = 4;
+                        break;
+                    case 3:
+                        result = 1;
+                        break;
+                    case 4:
+                        result = 2;
+                        break;
+                }
+            }
+
             if(sensorToggled) {
                 switch (result) {
                     case 1:
