@@ -58,6 +58,9 @@ public class MainActivity extends Activity{
             };
     private static final int REQUEST_CODE_REQUIRED_PERMISSIONS = 1;
 
+    private static final Strategy STRATEGY = Strategy.P2P_STAR;
+
+
     private ConnectionsClient connectionsClient;
     private int myScore;
     private String opponentEndpointId;
