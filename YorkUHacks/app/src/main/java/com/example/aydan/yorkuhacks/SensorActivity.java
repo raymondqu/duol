@@ -21,9 +21,10 @@ public class SensorActivity extends Service implements SensorEventListener{
 
     private Sensor mySensor;
     private SensorManager SM;
+    public Boolean inverted = false;
 
     private static int THRESHOLD = 2;
-    private static int COOLDOWN = 100;
+    private static int COOLDOWN = 250;
 
     private Boolean sendEnabled = true;
 
@@ -53,28 +54,49 @@ public class SensorActivity extends Service implements SensorEventListener{
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        //Log.d("x:", Float.toString(event.values[0]));
+
+
 
         if(event.values[0] < -THRESHOLD)
         {
-            sendDirection(1);
+            if(!inverted) {
+                sendDirection(1);
+            }
+            else {
+                sendDirection(3);
+            }
+
         }
         if(event.values[2] > THRESHOLD)
         {
-            sendDirection(2);
+            if(!inverted) {
+                sendDirection(2);
+            }
+            else {
+                sendDirection(4);
+            }
         }
         if(event.values[0] > THRESHOLD)
         {
-            sendDirection(3);
+            if(!inverted) {
+                sendDirection(3);
+            }
+            else {
+                sendDirection(1);
+            }
         }
         if(event.values[2] < -THRESHOLD)
         {
-            sendDirection(4);
+            if(!inverted) {
+                sendDirection(4);
+            }
+            else {
+                sendDirection(2);
+            }
         }
 
 
     }
-    //commited at 3:46
 
     public void sendDirection(int direction){
         if(sendEnabled){
@@ -114,5 +136,5 @@ public class SensorActivity extends Service implements SensorEventListener{
         SM.unregisterListener(this);
 
     }
-    //commited at 5:16 by Aydan
+    //commited at 11:53
 }
