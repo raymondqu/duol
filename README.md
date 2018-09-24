@@ -1,4 +1,4 @@
-# Duol - made at YorkU Hacks
+# Duol - a phone fighting game.
 Duol is a face-to-face, active multiplayer game where you can challenge a friend to a fast-paced sword fight.
 
 Singleplayer practice mode demo: [here](https://www.youtube.com/watch?v=JjXgMEOVieo).
