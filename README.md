@@ -1,5 +1,6 @@
 # Duol - made at YorkU Hacks
 Duol is a face-to-face, active multiplayer game where you can challenge a friend to a fast-paced sword fight.
+Singleplayer practice mode demo: [here](https://www.youtube.com/watch?v=JjXgMEOVieo).
 
 Project developed by:
 - Bill Li [@bill-l1](https://github.com/bill-l1)
