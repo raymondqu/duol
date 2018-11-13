@@ -23,7 +23,7 @@ public class SensorActivity extends Service implements SensorEventListener{
     private SensorManager SM;
     public Boolean inverted = false;
 
-    private static int THRESHOLD = 2;
+    private static double THRESHOLD = 1.5;
     private static int COOLDOWN = 250;
 
     private Boolean sendEnabled = true;
@@ -54,8 +54,6 @@ public class SensorActivity extends Service implements SensorEventListener{
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-
-
 
         if(event.values[0] < -THRESHOLD)
         {

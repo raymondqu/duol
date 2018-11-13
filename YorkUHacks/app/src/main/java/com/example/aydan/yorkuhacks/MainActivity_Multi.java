@@ -58,8 +58,6 @@ public class MainActivity_Multi extends Activity{
     private final String codeName = "testuser";
     private static final String[] REQUIRED_PERMISSIONS =
             new String[] {
-                    Manifest.permission.BLUETOOTH,
-                    Manifest.permission.BLUETOOTH_ADMIN,
                     Manifest.permission.ACCESS_WIFI_STATE,
                     Manifest.permission.CHANGE_WIFI_STATE,
                     Manifest.permission.ACCESS_COARSE_LOCATION,
